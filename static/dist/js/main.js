@@ -8,13 +8,20 @@ gainLife = function(id, amount) { socket.emit('gain_life', {'player_id': id, amo
 
 createPlayer = function(name) { socket.emit('create_player', {'name': name}); }
 
-socket.on('response', function(data){
-    var life = $('[data-player-id="' + data.player_id + '"]').find('.player__life');
+socket.on('response', function(data) {
+    var $player = $('[data-player-id="' + data.player_id + '"]'),
+        life = $player.find('.life-counter');
+
     life.text(data.life);
+
+    $player.find('.progress-radial').attr('class', 'progress-radial');
+    console.log($player);
+
+    var lifePercentage = (parseInt(data.life) * 100) / 20;
+    $player.find('.progress-radial').addClass('progress-' + lifePercentage);
 });
 
-socket.on('new_player', function(data){
-    console.log(data);
+socket.on('new_player', function(data) {
     var frag = can.view('playerTemplate', data);
     $('.players.row').append(frag);
     new playerControl($('.players.row').find('.player').last());

@@ -2,10 +2,16 @@
 
 ## Setup
 ```
+git clone https://github.com/ackl/draftboard
+cd draftboard
 pip install virtualenv
 virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
+cd static
+npm install
+bower install
+gulp
 ```
 
 
