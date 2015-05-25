@@ -1,0 +1,25 @@
+.player {
+    &__wrap {
+        border: 1px solid #cfcfcf;
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+
+    &__name {
+        margin: 0;
+        background: #555;
+        color: #efefef;
+    }
+
+    &__life {
+        border: 1px dashed green;
+        text-align: center;
+    }
+
+    &__controls {
+        button {
+            background: #777;
+        }
+    }
+
+}

@@ -1,0 +1,15 @@
+{% raw %}
+<script type="text/mustache" id="playerTemplate">
+    <div class="player player__{{player.name}} columns medium-4" data-player-id="{{player._id}}">
+            <h2 class="player__name">{{player.name}}</h2>
+            <div class="player__wrap">
+                <p class="player__life">{{player.life}}</p>
+
+                <div class="player__controls">
+                    <button class="button tiny fa-plus fa"></button>
+                    <button class="button tiny fa-minus fa"></button>
+                </div>
+            </div>
+        </div>
+</script>
+{% endraw %}

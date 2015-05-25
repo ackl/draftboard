@@ -1,0 +1,16 @@
+{
+  "name": "draftboard",
+  "version": "1.0.0",
+  "description": "Magic the Gathering draftboard ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "gulp": "^3.8.11",
+    "gulp-concat": "^2.5.2",
+    "gulp-sass": "^2.0.1"
+  }
+}
