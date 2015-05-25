@@ -4,16 +4,44 @@
 	<meta charset="UTF-8">
 	<title></title>
     <link rel="stylesheet" href="{{url_for('static', filename='style.css')}}">
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+
+    <script type="text/javascript" charset="utf-8">
+            namespace = '/life'; // change to an empty string to use the global namespace
+
+            var socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+
+            send = function(){
+                socket.emit('send_message', {message : "testing"});
+            }
+
+            loseLife = function(){
+                socket.emit('lose_life', {player: "player1", amount: 1});
+            }
+
+            gainLife = function(){
+                socket.emit('gain_life', {player: "player1", amount: 1});
+            }
+
+            socket.on('response', function(data){
+                console.log(data);
+                var life = $('.player__' + data.name).find('.player__life');
+                life.text(data.life);
+                console.log(life);
+            });
+    </script>
 </head>
 <body>
     <h1>Draftboard</h1>
     {% for player in players %}
-        <div class="player">
+        <div class="player player__{{player.name}}">
             <h2>name:</h2>
             <p>{{player.name}}</p>
 
             <h2>life:</h2>
-            <p>{{player.life}}</p>
+            <p class="player__life">{{player.life}}</p>
         </div>
     {% endfor %}
 </body>
