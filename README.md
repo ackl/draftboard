@@ -18,4 +18,11 @@ curl -H "Content-type: application/json" -X POST http://127.0.0.1:5000/newplayer
 
 
 #### Run server
+1. Make sure mongodb is running
+```
+mongod
+```
+2. Run the Flask app
+```
 python app.py
+```
