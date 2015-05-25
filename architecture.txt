@@ -1,22 +1,188 @@
 #Enums
-    Format | <'standard', 'modern', 'limited'>
+    format | <'standard', 'modern', 'limited'>
 
 #Models
     Player
-        - UUID      | string
-        - Name      | string
-        - Life      | points int
-        - Game_list | array[game]
+        - id   | int
+	- name | string
+        - life | int
 
     Game
-        - score | dictionary {
-            'playername': wins
-        }
-
-        - format | value_from_enum
-
+	- id      | int
+        - players | dictionary {Player : int victories}
+        - format  | string enum
+	
+	- getVictor() | Player
 
     Tournament
-        - Game_list | array[game]
-        - getCurrentWinner | return player
-        - getPlayerPosition(player) | return int
+	- id	  | int
+	- name 	  | string
+	- players | dictionary {Player : int tiebreaker}
+        - games   | list Game
+
+#Views
+    / & /overview
+	- Top 3 leaderboard of players, each linked to GET/players/$player
+	- Link to all players page GET/players
+	- Link to all games page GET/games
+	- Latest tournament data, linked to GET/tournaments/$tournament
+	- Link to all tournaments page GET/tournaments
+
+	- New tournament button, GET/tournaments/new
+	- New game button, GET/games/new
+	- New player button, GET/players/new
+
+
+    /players
+	- List of all players as a leaderboard, each linked to
+	  GET/players/$player
+	- Each has game stats, links to their page GET/players/$player/games
+	- Each has tournament stats, links to their page
+	  GET/players/$player/tournaments
+	- New player button, GET/players/new
+	- Return to overview page, GET/overview
+
+    /players/new
+	- Form to create new player POST/players, redirects to
+	  GET/players/$new_player
+
+    /players/$player.id & /players/$player.name
+	- Player stats pane, links to GET/players/$player/games and
+	  GET/players/$player/tournaments
+	- Leaderboard position, links to GET/players
+	- Most recent games and results, each linked to GET/games/$game
+	- Most recent tournament and position, linked to
+	  GET/tournaments/$tournament
+
+    /players/$player/games
+	- List of games which player participated, each links to
+	  GET/games/$game
+	- Each has opponent, links to their page GET/players/$opponent
+	- Return to player page button, GET/players/$player
+
+    /players/$player/tournaments
+	- List of tournaments which player participated, each links to
+	  GET/tournaments/$tournament
+	- Each has opponents list, each links to GET/player/$opponent
+	- Return to player page button, GET/players/$player
+
+
+    /games
+	- List of all games in time order, each linked to GET/games/$game
+	- Each has participants list, links to their page
+	  GET/players/$participant
+	- New game button, GET/games/new
+	- Return to overview page button, GET/overview
+
+    /games/new
+	- Form to create new game POST/games, redirects to GET/games/$new_game
+
+    /games/$game
+	- Game format information, links to info page GET/formats/$format
+	- List of participating players, each linking to GET/players/$player
+	- Victor information, links GET/players/$victor
+	- Deck info*
+
+
+    /tournaments
+	- List of all tournaments in time order, each linked to
+	  GET/tournaments/$tournaments
+	- Each has participants list, links to their page
+	  GET/tournaments/$tournament/participants/$participant
+	- New tournament button, GET/tournaments/new
+	- Return to overview page button, GET/overview
+
+    /tournaments/new
+	- Form to create new tournament POST/tournaments, redirects to
+	  GET/tournaments/$new_tournament
+	- Return to tournaments page, GET/tournaments
+
+    /tournaments/$tournament
+	- List of participants in points order, each linked to
+	  GET/tournaments/$tournament/participants/$participant
+	- Each has points, links to their page
+	  GET/tournaments/$tournament/participants/$participant/games
+	- Each has tiebreaker
+	- Button linking to GET/tournaments/$tournament/participants
+	- Button linking to GET/tournaments/$tournament/games
+	- New game button linking to GET/tournaments/$tournament/games/new
+	- Return to tournaments page, GET/tournaments
+
+    /tournaments/$tournament/games
+	- List of games in this tournament, links to
+	  GET/tournaments/$tournament/games/$game
+	- Each has participants list,
+	  GET/tournaments/$tournament/participants/$participant
+	- Return to tournament page, GET/tournaments/$tournament
+
+    /tournaments/$tournament/games/new
+	- Form to create new tournament game POST/games,
+	  redirects to GET/games/$new_game
+	- Return to tournament page, GET/tournaments/$tournament
+
+    /tournaments/$tournament/games/$game
+	- Redirects to GET/games/$game
+
+    /tournaments/$tournament/participants
+	- List of participants in this tournament, links to
+	  GET/tournaments/$tournament/participants/$participant
+	- Each has points, links to their page
+	  GET/tournaments/$tournament/participants/$participant/games
+	- Each has tiebreaker
+	- Return to tournament page, GET/tournaments/$tournament
+
+    /tournaments/$tournament/participants/$participant
+	- Redirects to GET/players/$player
+
+    /tournaments/$tournament/participants/$participant/games
+	- List of games in which player participated, each links to
+	  GET/tournaments/$tournament/games/$game
+	- Each has opponent, links to GET/tournaments/$tournament/participants/$opponent
+	- Button for player page,
+	  GET/tournaments/$tournament/participants/$participant
+	- Return to participants page,
+	  GET/tournaments/$tournament/participants
+
+
+    /stats
+	- Page for cool stat options in the future (top rivalries, deck types,
+	  etc.)
+
+#Controllers
+
+    app
+	- GET/
+
+    players
+	- GET/                    | Return list of players
+	- GET/new                 | Return new player form
+	- GET/$player             | Return player information
+	- GET/$player/games       | Return player game information
+	- GET/$player/tournaments | Return player tournament information
+
+	- POST/ | Create new player object
+
+	- PUT/$player | Update player object
+
+    games
+	- GET/
+	- GET/new
+	- GET/$game
+	
+	- POST/ | Create new game object
+
+	- PUT/$game | Update game object
+
+    tournaments
+	- GET/
+	- GET/new
+	- GET/$tournament
+	- GET/$tournament/games
+	- GET/$tournamnet/games/$game
+	- GET/$tournament/participants
+	- GET/$tournament/participants/$participant
+	- GET/$tournaments/participants/$participant/games
+
+	- POST/ | Create new tournament object
+	
+	- PUT/$tournament | Update tournament object
