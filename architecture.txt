@@ -1,0 +1,22 @@
+#Enums
+    Format | <'standard', 'modern', 'limited'>
+
+#Models
+    Player
+        - UUID      | string
+        - Name      | string
+        - Life      | points int
+        - Game_list | array[game]
+
+    Game
+        - score | dictionary {
+            'playername': wins
+        }
+
+        - format | value_from_enum
+
+
+    Tournament
+        - Game_list | array[game]
+        - getCurrentWinner | return player
+        - getPlayerPosition(player) | return int
