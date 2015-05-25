@@ -14,11 +14,12 @@
 
 </head>
 <body>
+
     <div class="row">
         <h1>Draftboard</h1>
     </div>
 
-    <form method="post">
+    <form method="post" class="form__player">
         <div class="row">
             <div class="large-12 columns">
                 <div class="row collapse">
@@ -45,14 +46,16 @@
                     </div>
 
                     <div class="player__controls">
-                        <button class="button tiny fa-plus fa"></button>
-                        <button class="button tiny fa-minus fa"></button>
+                        <button class="button fa-plus fa"></button>
+                        <button class="button fa-minus fa"></button>
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
     {% include 'playerTemplate.html' %}
+
+    {% include 'chatbox.html' %}
     <script type="text/javascript" src="{{url_for('static', filename='dist/js/main.js')}}"> </script>
 </body>
 </html>

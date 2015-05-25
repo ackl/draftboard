@@ -7608,13 +7608,15 @@ html, body {
 
 .player__wrap {
   border: 1px solid #cfcfcf;
+  min-height: 200px;
   margin-bottom: 20px;
   padding: 10px; }
 
 .player__name {
   margin: 0;
   background: #555;
-  color: #efefef; }
+  color: #efefef;
+  padding: 5px 10px 8px; }
 
 .player__life {
   border: 1px dashed green;
@@ -7622,20 +7624,177 @@ html, body {
 
 .player__controls button {
   background: #777; }
+  .player__controls button:focus {
+    outline: none;
+    background: #777; }
+  .player__controls button:active {
+    background: #444; }
+
+.progress-radial {
+  float: left;
+  margin-right: 30px;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background-color: #bfbfbf; }
+  .progress-radial .overlay {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin-left: 20px;
+    margin-top: 20px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 16px; }
+
+.progress-0 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(90deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-5 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(108deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-10 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(126deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-15 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(144deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-20 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(162deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-25 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(180deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-30 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(198deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-35 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(216deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-40 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(234deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-45 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(252deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-50 {
+  background-image: linear-gradient(-90deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-55 {
+  background-image: linear-gradient(-72deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-60 {
+  background-image: linear-gradient(-54deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-65 {
+  background-image: linear-gradient(-36deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-70 {
+  background-image: linear-gradient(-18deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-75 {
+  background-image: linear-gradient(0deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-80 {
+  background-image: linear-gradient(18deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-85 {
+  background-image: linear-gradient(36deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-90 {
+  background-image: linear-gradient(54deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-95 {
+  background-image: linear-gradient(72deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-100 {
+  background-image: linear-gradient(90deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.chatbox {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #cfcfcf;
+  height: 150px;
+  overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.7);
+  color: silver; }
+  .chatbox .row {
+    position: relative; }
+  .chatbox form {
+    position: fixed;
+    right: 0;
+    bottom: 10%;
+    margin-right: 5%; }
+    .chatbox form button {
+      padding: 0 10px; }
+  .chatbox__toggle {
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px dashed #efefef; }
+    .chatbox__toggle:hover, .chatbox__toggle:active, .chatbox__toggle:focus {
+      background: rgba(0, 0, 0, 0.3);
+      outline: none; }
+  .chatbox .message {
+    margin: 0;
+    border-bottom: 1px solid grey; }
 
 /*@import 'foundation/functions';*/
 /*$column-gutter: rem-calc(30);*/
 
 
+.chatbox {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #cfcfcf;
+  height: 150px;
+  overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.7);
+  color: silver; }
+  .chatbox .row {
+    position: relative; }
+  .chatbox form {
+    position: fixed;
+    right: 0;
+    bottom: 10%;
+    margin-right: 5%; }
+    .chatbox form button {
+      padding: 0 10px; }
+  .chatbox__toggle {
+    margin: 0;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px dashed #efefef; }
+    .chatbox__toggle:hover, .chatbox__toggle:active, .chatbox__toggle:focus {
+      background: rgba(0, 0, 0, 0.3);
+      outline: none; }
+  .chatbox .message {
+    margin: 0;
+    border-bottom: 1px solid grey; }
+
 .player__wrap {
   border: 1px solid #cfcfcf;
+  min-height: 200px;
   margin-bottom: 20px;
   padding: 10px; }
 
 .player__name {
   margin: 0;
   background: #555;
-  color: #efefef; }
+  color: #efefef;
+  padding: 5px 10px 8px; }
 
 .player__life {
   border: 1px dashed green;
@@ -7643,6 +7802,95 @@ html, body {
 
 .player__controls button {
   background: #777; }
+  .player__controls button:focus {
+    outline: none;
+    background: #777; }
+  .player__controls button:active {
+    background: #444; }
+
+.progress-radial {
+  float: left;
+  margin-right: 30px;
+  position: relative;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  background-color: #bfbfbf; }
+  .progress-radial .overlay {
+    position: absolute;
+    width: 55px;
+    height: 55px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    margin-left: 20px;
+    margin-top: 20px;
+    text-align: center;
+    line-height: 60px;
+    font-size: 16px; }
+
+.progress-0 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(90deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-5 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(108deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-10 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(126deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-15 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(144deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-20 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(162deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-25 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(180deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-30 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(198deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-35 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(216deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-40 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(234deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-45 {
+  background-image: linear-gradient(90deg, #333 50%, transparent 50%, transparent), linear-gradient(252deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-50 {
+  background-image: linear-gradient(-90deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-55 {
+  background-image: linear-gradient(-72deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-60 {
+  background-image: linear-gradient(-54deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-65 {
+  background-image: linear-gradient(-36deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-70 {
+  background-image: linear-gradient(-18deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-75 {
+  background-image: linear-gradient(0deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-80 {
+  background-image: linear-gradient(18deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-85 {
+  background-image: linear-gradient(36deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-90 {
+  background-image: linear-gradient(54deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-95 {
+  background-image: linear-gradient(72deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
+
+.progress-100 {
+  background-image: linear-gradient(90deg, #bfbfbf 50%, transparent 50%, transparent), linear-gradient(270deg, #bfbfbf 50%, #333 50%, #333); }
 
 * {
   box-sizing: border-box; }

@@ -40,11 +40,6 @@ def newPlayer():
         player_id = players.insert(player)
         socketio.emit('testing', {'message': 'hi'}, broadcast=True)
 
-        #socketio.emit('new_player',
-                #{'player_id': player_id, 'life': player['life'], 'name': player['name']},
-                      #namespace='/life', broadcast=True)
-
-        #emit('new_player', {'player_id': player_id, 'life': player['life'], 'name': player['name']}, broadcast=True, namespace='/life')
         return '200'
     else:
         return 'invalid syntax'
@@ -71,6 +66,10 @@ def createPlayer(data):
     player_id = players.insert(player)
 
     emit('new_player', {'player': {'name': player['name'], 'life': player['life'], 'games': player['games'], '_id': str(player_id)}}, broadcast=True)
+
+@socketio.on('broadcast_message:send', namespace='/draftboard')
+def broadcastMessage(data):
+    emit('broadcast_message:receive', {'message': data['message']}, broadcast=True)
 
 def getPlayerByName(name):
     return players.find_one({'name': name});
