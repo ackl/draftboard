@@ -7606,11 +7606,21 @@ html, body {
   margin: 0;
   padding: 0; }
 
+nav.top-bar {
+  margin-bottom: 35px; }
+
+form.form__player {
+  margin-bottom: 20px; }
+  form.form__player button {
+    background: #777; }
+    form.form__player button:active, form.form__player button:hover {
+      background: #aaaaaa; }
+
 .player__wrap {
   border: 1px solid #cfcfcf;
-  min-height: 200px;
+  min-height: 150px;
   margin-bottom: 20px;
-  padding: 10px; }
+  padding: 20px 10px 10px; }
 
 .player__name {
   margin: 0;
@@ -7618,21 +7628,21 @@ html, body {
   color: #efefef;
   padding: 5px 10px 8px; }
 
-.player__life {
-  border: 1px dashed green;
-  text-align: center; }
-
-.player__controls button {
-  background: #777; }
-  .player__controls button:focus {
-    outline: none;
+.player__controls {
+  width: 30%;
+  float: right; }
+  .player__controls button {
     background: #777; }
-  .player__controls button:active {
-    background: #444; }
+    .player__controls button:focus {
+      outline: none;
+      background: #777; }
+    .player__controls button:active, .player__controls button:hover {
+      background: #aaaaaa; }
 
 .progress-radial {
   float: left;
   margin-right: 30px;
+  margin-left: 10px;
   position: relative;
   width: 100px;
   height: 100px;
@@ -7750,7 +7760,6 @@ html, body {
 /*@import 'foundation/functions';*/
 /*$column-gutter: rem-calc(30);*/
 
-
 .chatbox {
   position: fixed;
   bottom: 0;
@@ -7786,9 +7795,9 @@ html, body {
 
 .player__wrap {
   border: 1px solid #cfcfcf;
-  min-height: 200px;
+  min-height: 150px;
   margin-bottom: 20px;
-  padding: 10px; }
+  padding: 20px 10px 10px; }
 
 .player__name {
   margin: 0;
@@ -7796,21 +7805,21 @@ html, body {
   color: #efefef;
   padding: 5px 10px 8px; }
 
-.player__life {
-  border: 1px dashed green;
-  text-align: center; }
-
-.player__controls button {
-  background: #777; }
-  .player__controls button:focus {
-    outline: none;
+.player__controls {
+  width: 30%;
+  float: right; }
+  .player__controls button {
     background: #777; }
-  .player__controls button:active {
-    background: #444; }
+    .player__controls button:focus {
+      outline: none;
+      background: #777; }
+    .player__controls button:active, .player__controls button:hover {
+      background: #aaaaaa; }
 
 .progress-radial {
   float: left;
   margin-right: 30px;
+  margin-left: 10px;
   position: relative;
   width: 100px;
   height: 100px;
@@ -7898,3 +7907,13 @@ html, body {
 html, body {
   margin: 0;
   padding: 0; }
+
+nav.top-bar {
+  margin-bottom: 35px; }
+
+form.form__player {
+  margin-bottom: 20px; }
+  form.form__player button {
+    background: #777; }
+    form.form__player button:active, form.form__player button:hover {
+      background: #aaaaaa; }

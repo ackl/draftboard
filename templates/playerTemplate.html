@@ -1,17 +1,15 @@
 {% raw %}
 <script type="text/mustache" id="playerTemplate">
-
     <div class="player player__{{player.name}} columns medium-6 large-4" data-player-id="{{player._id}}">
-        <h2 class="player__name">{{player.name}}</h2>
+        <h4 class="player__name">{{player.name}}</h4>
         <div class="player__wrap">
-            <p class="player__life life-counter">{{player.life}}</p>
-            <div class="progress-radial progress-100">
-                <div class=" life-counter overlay">{{player.life}}</div>
+            <div class="progress-radial progress-0">
+                <div class="life-counter overlay">{{player.life}}</div>
             </div>
 
             <div class="player__controls">
-                <button class="button tiny fa-plus fa"></button>
-                <button class="button tiny fa-minus fa"></button>
+                <button class="button small fa-plus fa"></button>
+                <button class="button small fa-minus fa"></button>
             </div>
         </div>
     </div>

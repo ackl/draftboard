@@ -1,9 +1,11 @@
+@import '../_variables';
+
 .player {
     &__wrap {
         border: 1px solid #cfcfcf;
-        min-height: 200px;
+        min-height: 150px;
         margin-bottom: 20px;
-        padding: 10px;
+        padding: 20px 10px 10px;
     }
 
     &__name {
@@ -13,22 +15,20 @@
         padding: 5px 10px 8px;
     }
 
-    &__life {
-        border: 1px dashed green;
-        text-align: center;
-    }
-
     &__controls {
+        width: 30%;
+        float: right;
+
         button {
-            background: #777;
+            background: $button-bg;
 
             &:focus {
                 outline: none;
-                background: #777;
+                background: $button-bg;
             }
 
-            &:active {
-                background: #444;
+            &:active, &:hover {
+                background: lighten($button-bg, 20%);
             }
         }
     }
@@ -45,6 +45,7 @@ $backColor: #333;
 .progress-radial {
     float: left;
     margin-right: 30px;
+    margin-left: 10px;
     position: relative;
     width: 100px;
     height: 100px;

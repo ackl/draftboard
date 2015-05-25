@@ -8,54 +8,20 @@
     <script src="{{url_for('static', filename='bower_components/foundation/js/foundation.js')}}"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
     <script src="{{url_for('static', filename='bower_components/canjs/can.jquery.dev.js')}}"></script>
-    <script src="{{url_for('static', filename='bower_components/canjs/can.jquery.dev.js')}}"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
 </head>
 <body>
 
-    <div class="row">
-        <h1>Draftboard</h1>
-    </div>
+    {% include 'navigation.html' %}
 
-    <form method="post" class="form__player">
-        <div class="row">
-            <div class="large-12 columns">
-                <div class="row collapse">
-                    <div class="small-10 columns">
-                        <input type="text" placeholder="Player name" class="name">
-                    </div>
-                    <div class="small-2 columns">
-                        <button type="submit" href="#" class="button postfix">Add</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+    {% include 'forms/newPlayerForm.html' %}
 
-
-    <div class="row players">
-        {% for player in players %}
-        <div class="player player__{{player.name}} columns medium-6 large-4" data-player-id="{{player._id}}">
-                <h2 class="player__name">{{player.name}}</h2>
-                <div class="player__wrap">
-                    <p class="player__life life-counter">{{player.life}}</p>
-                    <div class="progress-radial progress-{{(player.life * 100)//20}}">
-                        <div class=" life-counter overlay">{{player.life}}</div>
-                    </div>
-
-                    <div class="player__controls">
-                        <button class="button fa-plus fa"></button>
-                        <button class="button fa-minus fa"></button>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
+    {% include 'players.html' %}
     {% include 'playerTemplate.html' %}
 
     {% include 'chatbox.html' %}
-    <script type="text/javascript" src="{{url_for('static', filename='dist/js/main.js')}}"> </script>
+    <script type="text/javascript" src="{{url_for('static', filename='dist/js/bundle.js')}}"> </script>
 </body>
 </html>
