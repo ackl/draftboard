@@ -20,7 +20,7 @@ class GameDao:
 
     def updateById(self, id, request):
         #TODO
-        return generate_response(games.find_one_and_update({'_id': id}, request))
+        return generate_response(games.update({'_id': id}, request))
 
-    def deleteById(self, id):
-        return generate_response(games.find_one_and_delete({'_id': id}))
+    def destroyById(self, id):
+        return generate_response(games.remove({'_id': id}))

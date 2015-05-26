@@ -23,16 +23,16 @@ class PlayerDao:
     
     def updateById(self, id, request):
         #TODO
-        return generate_response(players.find_one_and_update({'_id': id}, request))
+        return generate_response(players.update({'_id': id}, request))
 
     def updateByName(self, name, request):
         #TODO
-        return generate_response(players.find_one_and_update({'name': name}, request))
+        return generate_response(players.update({'name': name}, request))
 
-    def deleteById(self, id):
-        return generate_response(players.find_one_and_delete({'_id': id}))
+    def destroyById(self, id):
+        return generate_response(players.remove({'_id': id}))
 
-    def deleteByName(self, name):
-        return generate_response(players.find_one_and_delete({'name': name}))
+    def destroyByName(self, name):
+        return generate_response(players.remove({'name': name}))
 
 
