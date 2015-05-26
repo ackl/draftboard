@@ -2,3 +2,6 @@ venv
 bower_components
 node_modules
 *.pyc
+*~
+*.swp
+*.un
