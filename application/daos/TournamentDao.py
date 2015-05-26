@@ -1,38 +1,46 @@
-from flask import json
+from pymongo import MongoClient
 
-from application.daos.Utility import get_database, generate_response
 from application.models.Tournament import Tournament
 
 class TournamentDao:
 
     global tournaments
-    tournaments = get_database().tournaments
+    tournaments = MongoClient().dev_db.tournaments
 
-    def create(self, request):
-        new_tournament = Tournament() #TODO: serialize json request to Tournament object
-        return generate_response(tournaments.insert(new_tournament))
+    def create(self, tournament):
+        return tournaments.insert(tournament.__dict__)
 
     def retrieveAll(self):
-        return generate_response(tournaments.find())
+        return tournaments.find()
 
     def retrieveById(self, id):
-        return generate_response(tournaments.find_one({'_id': id}))
+        return tournaments.find_one({'id': int(id)})
 
     def retrieveByName(self, name):
-        return generate_response(tournaments.find_one({'name': name}))
+        return tournaments.find_one({'name': name})
 
     def updateById(self, id, request):
-        #TODO
-        return generate_response(tournaments.update({'_id': id}, request))
+        return tournaments.update({'id': int(id)}, request)
 
     def updateByName(self, name, request):
-        #TODO
-        return generate_response(tournaments.update({'name': name}, request))
+        return tournaments.update({'name': name}, request)
 
     def destroyById(self, id):
-        return generate_response(tournaments.remove({'_id': id}))
+        return tournaments.remove({'id': int(id)})
 
     def destroyByName(self, name):
-        return generate_response(tournaments.remove({'name': name}))
+        return tournaments.remove({'name': name})
+    
+
+    def getValidId(self):
+        max = 0
+        for tournament in tournaments.find():
+            try:
+                if tournament['id'] > max:
+                    max = tournament['id']
+            except:
+                pass
+
+        return max + 1
 
 

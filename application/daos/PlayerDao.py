@@ -1,38 +1,44 @@
-from flask import json
+from pymongo import MongoClient
 
-from application.daos.Utility import get_database, generate_response
 from application.models.Player import Player
 
 class PlayerDao:
 
     global players 
-    players = get_database().players
+    players = MongoClient().dev_db.players
 
-    def create(self, request):
-        new_player = Player(request.json['id'], request.json['name'])
-        return generate_response(players.insert(new_player))
+    def create(self, player):
+        return players.insert(player.__dict__)
 
     def retrieveAll(self):
-        return generate_response(players.find())
+        return players.find()
     
     def retrieveById(self, id):
-        return generate_response(players.find_one({'_id': id}))
+        return players.find_one({'id': int(id)})
 
     def retrieveByName(self, name):
-        return generate_response(players.find_one({'name': name}))
+        return players.find_one({'name': name})
     
-    def updateById(self, id, request):
-        #TODO
-        return generate_response(players.update({'_id': id}, request))
+    def updateById(self, id, player):
+        return players.update({'id': int(id)}, player.__dict__)
 
-    def updateByName(self, name, request):
-        #TODO
-        return generate_response(players.update({'name': name}, request))
+    def updateByName(self, name, player):
+        return players.update({'name': name}, player.__dict__)
 
     def destroyById(self, id):
-        return generate_response(players.remove({'_id': id}))
+        return players.remove({'id': int(id)})
 
     def destroyByName(self, name):
-        return generate_response(players.remove({'name': name}))
+        return players.remove({'name': name})
 
 
+    def getValidId(self):
+        max = 0
+        for player in players.find():
+            try:
+                if player['id'] > max:
+                    max = player['id']
+            except:
+                pass
+
+        return max + 1
