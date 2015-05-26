@@ -1,5 +1,5 @@
-# Use Case Definition
-A list of use cases for the application. One actor, the user, is defined for these use cases. The application use cases can be divided into three modules:
+# User Stories Definition
+A list of user stories for the application. The application user stories can be divided into three modules:
 
 * Player
 * Game
@@ -13,7 +13,7 @@ Handles creating, retrieving, updating, and deleting Player model objects. Also 
 * Retrieve a list of all players; should be sorted by performance.
 * Retrieve data on a single player, data includes game performance, tournament participation, current life total, and name.
 * Update a player's information, name and life total.
-* Delete a player, user should be prompted before deletion.
+* Delete a player, user should be prompted before deletion. Any games this player is involved in should also be deleted.
 * Retrieve a list of all games a player was involved in.
 * Retrieve a list of all tournaments a player has participated in.
 * Retrieve game information for a player's ongoing game, if any.
