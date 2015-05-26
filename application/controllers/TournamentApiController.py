@@ -6,7 +6,7 @@ from application.controllers.ApiController import ApiController
 from application.daos.TournamentDao import TournamentDao
 from application.models.Tournament import Tournament
 
-blueprint = Blueprint('tournament_api', __name__, url_prefix='/api/tournament')
+blueprint = Blueprint('tournament_api', __name__, url_prefix='/api/tournaments')
 
 
 class TournamentApiController(ApiController):
