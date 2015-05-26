@@ -1,55 +1,64 @@
-from flask import request
+from flask import request, Blueprint
+from flask.views import MethodView
 
-from application import app
-from application.Utility import gen_response
+from application.controllers.ApiController import ApiController
+
 from application.daos.PlayerDao import PlayerDao
 from application.models.Player import Player
 
-class PlayerApiController:
+blueprint = Blueprint('player_api', __name__, url_prefix='/api/players')
 
-    url = '/api/players'
+class PlayerApiController(ApiController):
 
-    @app.route(url + '/')
-    def getPlayers():
-        query = PlayerDao().retrieveAll()
-        return gen_response(query)
+    url_rules = {
+        'index': ['/', ('GET','POST',), {'uid': None}],
+        'select': ['/<uid>', ('GET','PUT','DELETE',)],
+        'games': ['/<uid>/games', ('GET',)],
+        'tournaments': ['/<uid>/tournaments', ('GET',)]
+    }
 
-    @app.route(url + '/', methods=['POST'])
-    def postPlayer():
+    def get(self, uid):
+        if uid:
+            if self.get_endpoint() == 'games':
+                return self.getGames(uid)
+
+            elif self.get_endpoint() == 'tournaments':
+                return self.getTournaments(uid)
+
+            else:
+                query = PlayerDao().retrieveById(uid)
+                return self.gen_response(query)
+
+        else:
+            query = PlayerDao().retrieveAll()
+            return self.gen_response(query)
+
+    def post(self):
         player = Player(
-                PlayerDao().getValidId(), 
+                PlayerDao().getValidId(),
                 request.json['name'])
 
         query = PlayerDao().create(player)
-        return gen_response(query)
+        return self.gen_response(query)
 
-    @app.route(url + '/<player_id>')
-    def getPlayer(player_id):
-        query = PlayerDao().retrieveById(player_id)
-        return gen_response(query)
 
-    @app.route(url + '/<player_id>', methods=['PUT'])
-    def putPlayer(player_id):
-        player = Player(
-                player_id,
-                request.json['name'])
+    def put(self, uid):
+        player = Player(uid, request.json['name'])
         player.life = request.json['life']
 
-        query = PlayerDao().updateById(player_id, player)
-        return gen_response(query)
+        query = PlayerDao().updateById(uid, player)
+        return self.gen_response(query)
 
-    @app.route(url + '/<player_id>', methods=['DELETE'])
-    def deletePlayer(player_id):
-        query = PlayerDao().destroyById(player_id)
-        return gen_response(query)
+    def delete(self, uid):
+        query = PlayerDao().destroyById(uid)
+        return self.gen_response(query)
 
-    @app.route(url + '/<player_name>/games')
-    def getPlayerGames(player_name):
+    def getGames(self, uid):
         #TODO
-        return
+        return '200'
 
-    @app.route(url + '/<player_name>/tournaments')
-    def getPlayerTournaments(player_name):
+    def getTournaments(self, uid):
         #TODO
-        return 
-        
+        return '200'
+
+#PlayerApiController.register(blueprint)
