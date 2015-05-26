@@ -32,7 +32,7 @@ Handles creating, retrieving, updating, and deleting Game model objects. Has col
 * Delete a game, user should be prompted before deletion.
 
 
-## Tournament Module
+### Tournament Module
 Handles creating, retrieving, updating, and deleting Tournament model objects. Stores a collection of aggregate Game and Player objects.
 
 * Store information for a tournament, including name, involved players, completed and ongoing games, and format.
