@@ -1,8 +1,9 @@
-from application import app
+from flask import request
 
-from application.daos.PlayerDao import PlayerDao
-from application.daos.GameDao import GameDao
+from application import app
+from application.Utility import gen_response
 from application.daos.TournamentDao import TournamentDao
+from application.models.Tournament import Tournament
 
 class TournamentApiController:
 
@@ -10,30 +11,49 @@ class TournamentApiController:
 
     @app.route('/')
     def getTournaments():
-        return TournamentDao().retrieveAll()
+        query = TournamentDao().retrieveAll()
+        return gen_response(query)
 
     @app.route('/', methods=['POST'])
     def postTournament():
-        TournamentDao().create(request)
+        tournament = Tournament(
+                TournamentDao().getValidId(),
+                request.json['name'],
+                request.json['players'],
+                request.json['format'],
+                request.json['games'])
+
+        query = TournamentDao().create(tournament)
+        return gen_response(query)
 
     @app.route('/<tournament_id>')
     def getTournament(tournament_id):
-        return TournamentDao().retrieveById(tournament_id)
+        query = TournamentDao().retrieveById(tournament_id)
+        return gen_response(query)
 
     @app.route('/<tournament_id>', methods=['PUT'])
     def putTournament(tournament_id):
-        TournamentDao().updateById(tournament_id, request)
+        tournament = Tournament(
+                tournament_id,
+                request.json['name'],
+                request.json['players'],
+                request.json['format'],
+                request.json['games'])
+
+        query = TournamentDao().updateById(tournament_id, tournament)
+        return gen_response(query)
 
     @app.route('/<tournament_id>', methods=['DELETE'])
     def deleteTournament(tournament_id):
-        TournamentDao().destroyById(tournament_id)
+        query = TournamentDao().destroyById(tournament_id)
+        return gen_response(query)
 
     @app.route('/<tournament_id>/participants')
     def getTournamentPlayers(tournament_id):
         #TODO
-        return PlayerDao().retrieveByTournamentId(tournament_id)
+        return 
 
     @app.route('/<tournament_id>/games')
     def getTournamentGames(tournament_id):
         #TODO
-        return GameDao().retrieveByTournamentId(tournament_id)
+        return
