@@ -11,10 +11,8 @@ module.exports = {
     initialise: function() {
         new Player.get().then(function(data) {
             can.each(data, function(item) {
+                item._id = item._id || item.id;
                 item._id = item._id.$oid;
-                console.log(item);
-                //item.attr('_id', item.attr('_id.$oid'));
-                //console.log(item.attr('_id'))
                 var frag = can.view('playerTemplate', {'player': item}, {
                     testingFunc: function() {
                         return 'hi'

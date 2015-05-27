@@ -7,8 +7,14 @@ class ApiController(MethodView):
 
     url = '/'
 
-    def gen_response(self, query):
-        response = Response(dumps(query), mimetype='application/json')
+    def gen_response(self, payload):
+        response = None
+
+        if type(payload) is list:
+            response = Response(dumps([obj.__dict__ for obj in payload]), mimetype='application/json')
+        else:
+            response = Response(dumps(payload.__dict__), mimetype='application/json')
+
         return make_response(response)
 
     def get_endpoint(self):

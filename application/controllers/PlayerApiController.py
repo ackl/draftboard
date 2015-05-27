@@ -1,13 +1,15 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, jsonify
 from flask.views import MethodView
 
 from application.controllers.ApiController import ApiController
 
 from application.daos.PlayerDao import PlayerDao
 from application.daos.MatchDao import MatchDao
+from application.daos.TournamentDao import TournamentDao
 from application.models.Player import Player
 from application import get_socket
 from flask.ext.socketio import emit
+from pymongo.errors import InvalidId
 
 blueprint = Blueprint('player_api', __name__, url_prefix='/api/players')
 
@@ -48,19 +50,25 @@ class PlayerApiController(ApiController):
         'index': ['/', ('GET',), {'uid': None}],
         'create': ['/', ('POST',)],
         'select': ['/<uid>', ('GET','PUT','DELETE',)],
-        'matches': ['/<uid>/matchs', ('GET',)],
+        'matches': ['/<uid>/matches', ('GET',)],
         'tournaments': ['/<uid>/tournaments', ('GET',)]
     }
 
     def get(self, uid):
         if uid:
-            player = PlayerDao().retrieveById(uid)
+            try:
+                player = PlayerDao().retrieveById(uid)
+            except InvalidId as e:
+                return jsonify({
+                    'error_type': type(e).__name__,
+                    'error_message': e.args[0]
+                })
 
             if self.get_endpoint() == 'matches':
-                return player.get_matches(MatchDao().retrieveAll())
+                return self.gen_response(player.get_matches(MatchDao().retrieveAll()))
 
             elif self.get_endpoint() == 'tournaments':
-                return player.get_tournaments(TournamentDao().retrieveAll())
+                return self.gen_response(player.get_tournaments(TournamentDao().retrieveAll()))
 
             else:
                 query = PlayerDao().retrieveById(uid)
@@ -69,6 +77,7 @@ class PlayerApiController(ApiController):
         else:
             query = PlayerDao().retrieveAll()
             return self.gen_response(query)
+            #return query
 
     def post(self):
         player = PlayerDao().create(request.json['name'])
