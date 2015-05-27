@@ -4,6 +4,7 @@ var chatboxControl = can.Control.extend({
     init: function(el, opts) {
         this.message = el.find('input.message-area');
         socket.on('broadcast_message:receive', function(data) {
+            alert(data.message);
             $('.messages').append('<p class="message">'+data.message+'</p>');
             $('.chatbox').animate({ scrollTop: $('.messages').height() });
         });

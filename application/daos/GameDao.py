@@ -1,10 +1,11 @@
 from pymongo import MongoClient
 
+from application import db
 from application.models.Game import Game
 
 class GameDao:
 
-    games = MongoClient().dev_db.games
+    games = db.games
 
     def create(self, game):
         return self.games.insert(game.__dict__)

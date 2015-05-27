@@ -1,6 +1,22 @@
 var playerControl = require('./playerControl');
 
-createPlayer = function(name) { socket.emit('create_player', {'name': name}); }
+//createPlayer = function(name) { socket.emit('create_player', {'name': name}); }
+//
+createPlayer = function(name) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/players/',
+        data: JSON.stringify({name: name}),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json'
+    });
+}
+
+
+    socket.on('devtest', function(data) {
+        console.log(data);
+    });
+
 
 socket.on('response', function(data) {
     var $player = $('[data-player-id="' + data.player_id + '"]'),
@@ -16,6 +32,7 @@ socket.on('response', function(data) {
 });
 
 socket.on('new_player', function(data) {
+    console.log(data)
     var frag = can.view('playerTemplate', data, {
         testingFunc: function() {
             return 'hi'

@@ -5,13 +5,47 @@ from application.controllers.ApiController import ApiController
 
 from application.daos.PlayerDao import PlayerDao
 from application.models.Player import Player
+from application import get_socket
+from flask.ext.socketio import emit
 
 blueprint = Blueprint('player_api', __name__, url_prefix='/api/players')
+
+socketio = get_socket()
+playerDao = PlayerDao()
+
+def changeLife(increment, amount, _id):
+    player = playerDao.retrieveById(_id)
+
+    if increment:
+        player.life += amount
+    else:
+        player.life -= amount
+
+    playerDao.updateById(_id, player)
+
+    player = playerDao.retrieveById(_id)
+    return player
+
+
+@socketio.on('lose_life')
+def decreaseLife(data):
+    player = changeLife(False, data['amount'], data['player_id'])
+    emit('response', {'player_id': str(player.id), 'life': player.life}, broadcast=True)
+
+@socketio.on('gain_life')
+def increaseLife(data):
+    player = changeLife(True, data['amount'], data['player_id'])
+    emit('response', {'player_id': str(player.id), 'life': player.life}, broadcast=True)
+
+@socketio.on('broadcast_message:send')
+def broadcastMessage(data):
+    emit('broadcast_message:receive', {'message': data['message']}, broadcast=True)
 
 class PlayerApiController(ApiController):
 
     url_rules = {
-        'index': ['/', ('GET','POST',), {'uid': None}],
+        'index': ['/', ('GET',), {'uid': None}],
+        'create': ['/', ('POST',)],
         'select': ['/<uid>', ('GET','PUT','DELETE',)],
         'games': ['/<uid>/games', ('GET',)],
         'tournaments': ['/<uid>/tournaments', ('GET',)]
@@ -34,12 +68,10 @@ class PlayerApiController(ApiController):
             return self.gen_response(query)
 
     def post(self):
-        player = Player(
-                PlayerDao().getValidId(),
-                request.json['name'])
+        player = PlayerDao().create(request.json['name'])
 
-        query = PlayerDao().create(player)
-        return self.gen_response(query)
+        socketio.emit('new_player', {'player': {'name': player.name, 'life': player.life, '_id': str(player.id)}})
+        return '200'
 
 
     def put(self, uid):

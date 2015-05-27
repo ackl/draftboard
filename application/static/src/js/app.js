@@ -1,13 +1,18 @@
-namespace = '/draftboard'; // change to an empty string to use the global namespace
-socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+//namespace = '/draftboard'; // change to an empty string to use the global namespace
+socket = io.connect('http://' + document.domain + ':' + location.port);
 
-var playerControl = require('./playerControl');
-var newPlayer = require('./newPlayer');
-var chatbox = require('./chatbox');
+var playerControl = require('./playerControl'),
+    newPlayer = require('./newPlayer'),
+    chatbox = require('./chatbox'),
+    playersView = require('./playersView');
 
-$('.player').each(function() {
-    new playerControl(this);
-});
 
 chatbox.initialise();
 newPlayer.initialise();
+playersView.initialise();
+
+$(function() {
+    socket.on('connect', function() {
+        socket.emit('connect');
+    });
+});

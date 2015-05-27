@@ -1,25 +1,31 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
-namespace = '/draftboard'; // change to an empty string to use the global namespace
-socket = io.connect('http://' + document.domain + ':' + location.port + namespace);
+//namespace = '/draftboard'; // change to an empty string to use the global namespace
+socket = io.connect('http://' + document.domain + ':' + location.port);
 
-var playerControl = require('./playerControl');
-var newPlayer = require('./newPlayer');
-var chatbox = require('./chatbox');
+var playerControl = require('./playerControl'),
+    newPlayer = require('./newPlayer'),
+    chatbox = require('./chatbox'),
+    playersView = require('./playersView');
 
-$('.player').each(function() {
-    new playerControl(this);
-});
 
 chatbox.initialise();
 newPlayer.initialise();
+playersView.initialise();
 
-},{"./chatbox":2,"./newPlayer":3,"./playerControl":4}],2:[function(require,module,exports){
+$(function() {
+    socket.on('connect', function() {
+        socket.emit('connect');
+    });
+});
+
+},{"./chatbox":2,"./newPlayer":3,"./playerControl":4,"./playersView":5}],2:[function(require,module,exports){
 broadcastMessage = function(msg) { socket.emit('broadcast_message:send', {'message': msg}); }
 
 var chatboxControl = can.Control.extend({
     init: function(el, opts) {
         this.message = el.find('input.message-area');
         socket.on('broadcast_message:receive', function(data) {
+            alert(data.message);
             $('.messages').append('<p class="message">'+data.message+'</p>');
             $('.chatbox').animate({ scrollTop: $('.messages').height() });
         });
@@ -51,7 +57,23 @@ module.exports = {
 },{}],3:[function(require,module,exports){
 var playerControl = require('./playerControl');
 
-createPlayer = function(name) { socket.emit('create_player', {'name': name}); }
+//createPlayer = function(name) { socket.emit('create_player', {'name': name}); }
+//
+createPlayer = function(name) {
+    $.ajax({
+        type: 'POST',
+        url: '/api/players/',
+        data: JSON.stringify({name: name}),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json'
+    });
+}
+
+
+    socket.on('devtest', function(data) {
+        console.log(data);
+    });
+
 
 socket.on('response', function(data) {
     var $player = $('[data-player-id="' + data.player_id + '"]'),
@@ -67,6 +89,7 @@ socket.on('response', function(data) {
 });
 
 socket.on('new_player', function(data) {
+    console.log(data)
     var frag = can.view('playerTemplate', data, {
         testingFunc: function() {
             return 'hi'
@@ -128,6 +151,37 @@ var playerControl = can.Control.extend({
 
 module.exports = playerControl;
 
-},{}]},{},[1]);
+},{}],5:[function(require,module,exports){
+var playerControl = require('./playerControl');
+
+Player = can.Model.extend({
+    get: function() {
+        return $.get('/api/players')
+    }
+}, {});
+
+
+module.exports = {
+    initialise: function() {
+        new Player.get().then(function(data) {
+            can.each(data, function(item) {
+                item._id = item._id.$oid;
+                console.log(item);
+                //item.attr('_id', item.attr('_id.$oid'));
+                //console.log(item.attr('_id'))
+                var frag = can.view('playerTemplate', {'player': item}, {
+                    testingFunc: function() {
+                        return 'hi'
+                    }
+                });
+                $('.players.row').append(frag);
+                new playerControl($('.players.row').find('.player').last());
+            });
+        });
+    }
+}
+
+
+},{"./playerControl":4}]},{},[1]);
 
 //# sourceMappingURL=bundle.js.map

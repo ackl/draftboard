@@ -1,10 +1,11 @@
 from pymongo import MongoClient
 
+from application import db
 from application.models.Tournament import Tournament
 
 class TournamentDao:
 
-    tournaments = MongoClient().dev_db.tournaments
+    tournaments = db.tournaments
 
     def create(self, tournament):
         return self.tournaments.insert(tournament.__dict__)

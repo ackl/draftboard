@@ -11,7 +11,7 @@
 	- id      | int
         - players | dictionary {Player : int victories}
         - format  | string enum
-	
+
 	- getVictor() | Player
 
     Tournament
@@ -168,7 +168,7 @@
 	- GET/
 	- GET/new
 	- GET/$game
-	
+
 	- POST/ | Create new game object
 
 	- PUT/$game | Update game object
@@ -184,5 +184,5 @@
 	- GET/$tournaments/participants/$participant/games
 
 	- POST/ | Create new tournament object
-	
+
 	- PUT/$tournament | Update tournament object
