@@ -14,6 +14,6 @@ class Game:
     def is_ongoing(self):
         for player in self.players:
             if player.value() >= best_of/2:
-                return True
+                return False
 
-        return False
+        return True
