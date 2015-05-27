@@ -46,11 +46,7 @@ class PlayerApiController(ApiController):
 
     url_rules = {
         'index': ['/', ('GET',), {'uid': None}],
-<<<<<<< HEAD
         'create': ['/', ('POST',)],
-=======
-        'add': ['/', ('POST',)],
->>>>>>> Implemented retrieving games for a player
         'select': ['/<uid>', ('GET','PUT','DELETE',)],
         'games': ['/<uid>/games', ('GET',)],
         'tournaments': ['/<uid>/tournaments', ('GET',)]
