@@ -1,8 +1,8 @@
 from unittest import TestCase
 
-from application import client 
+from application import client
 from application.models.Player import Player
-from application.models.Game import Game
+from application.models.Match import Match
 from application.models.Tournament import Tournament
 
 class ModelTestCase(TestCase):
@@ -12,26 +12,26 @@ class ModelTestCase(TestCase):
         player_2 = Player(2, "Andrew")
         player_3 = Player(3, "Trampy")
 
-        self.all_games = []
+        self.all_matches = []
 
-        self.game_1 = Game(1, {1:2, 2:1}, 3, "Constructed/Standard")
-        self.all_games.append(self.game_1)
-        self.game_2 = Game(2, {2:1, 3:2}, 3, "Limited/Booster Draft")
-        self.all_games.append(self.game_2)
-        self.game_3 = Game(3, {1:2, 2:1}, 5, "Constructed/Modern")
-        self.all_games.append(self.game_3)
+        self.match_1 = Match(1, {1:2, 2:1}, 3, "Constructed/Standard")
+        self.all_matches.append(self.match_1)
+        self.match_2 = Match(2, {2:1, 3:2}, 3, "Limited/Booster Draft")
+        self.all_matches.append(self.match_2)
+        self.match_3 = Match(3, {1:2, 2:1}, 5, "Constructed/Modern")
+        self.all_matches.append(self.match_3)
 
-        self.player_1_games = player_1.get_games(self.all_games)
-        self.player_2_games = player_2.get_games(self.all_games)
-        self.player_3_games = player_3.get_games(self.all_games)
+        self.player_1_matches = player_1.get_matches(self.all_matches)
+        self.player_2_matches = player_2.get_matches(self.all_matches)
+        self.player_3_matches = player_3.get_matches(self.all_matches)
 
-        self.player_1_current_game = player_1.get_current_game(self.player_1_games)
-        self.player_2_current_game = player_2.get_current_game(self.player_2_games)
-        self.player_3_current_game = player_3.get_current_game(self.player_3_games)
+        self.player_1_current_match = player_1.get_current_match(self.player_1_matches)
+        self.player_2_current_match = player_2.get_current_match(self.player_2_matches)
+        self.player_3_current_match = player_3.get_current_match(self.player_3_matches)
 
-        self.player_1_performance = player_1.get_performance(self.player_1_games)
-        self.player_2_performance = player_2.get_performance(self.player_2_games)
-        self.player_3_performance = player_3.get_performance(self.player_3_games)
+        self.player_1_performance = player_1.get_performance(self.player_1_matches)
+        self.player_2_performance = player_2.get_performance(self.player_2_matches)
+        self.player_3_performance = player_3.get_performance(self.player_3_matches)
 
         all_tournaments = []
 
@@ -41,17 +41,17 @@ class ModelTestCase(TestCase):
         self.player_1_tournaments = player_1.get_tournaments(all_tournaments)
         self.player_2_tournaments = player_2.get_tournaments(all_tournaments)
         self.player_3_tournaments = player_3.get_tournaments(all_tournaments)
-        
 
-    def test_get_games(self):
-        self.assertEqual(self.player_1_games, [self.game_1, self.game_3])
-        self.assertEqual(self.player_2_games, self.all_games)
-        self.assertEqual(self.player_3_games, [self.game_2])
 
-    def test_get_current_game(self):
-        self.assertEqual(self.player_1_current_game, self.game_3)
-        self.assertEqual(self.player_2_current_game, self.game_3)
-        self.assertEqual(self.player_3_current_game, None)
+    def test_get_matches(self):
+        self.assertEqual(self.player_1_matches, [self.match_1, self.match_3])
+        self.assertEqual(self.player_2_matches, self.all_matches)
+        self.assertEqual(self.player_3_matches, [self.match_2])
+
+    def test_get_current_match(self):
+        self.assertEqual(self.player_1_current_match, self.match_3)
+        self.assertEqual(self.player_2_current_match, self.match_3)
+        self.assertEqual(self.player_3_current_match, None)
 
     def test_get_performance(self):
         self.assertEqual(self.player_1_performance, [1, 0])

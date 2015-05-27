@@ -4,7 +4,7 @@ from flask.views import MethodView
 from application.controllers.ApiController import ApiController
 
 from application.daos.PlayerDao import PlayerDao
-from application.daos.GameDao import GameDao
+from application.daos.MatchDao import MatchDao
 from application.models.Player import Player
 from application import get_socket
 from flask.ext.socketio import emit
@@ -48,7 +48,7 @@ class PlayerApiController(ApiController):
         'index': ['/', ('GET',), {'uid': None}],
         'create': ['/', ('POST',)],
         'select': ['/<uid>', ('GET','PUT','DELETE',)],
-        'games': ['/<uid>/games', ('GET',)],
+        'matches': ['/<uid>/matchs', ('GET',)],
         'tournaments': ['/<uid>/tournaments', ('GET',)]
     }
 
@@ -56,8 +56,8 @@ class PlayerApiController(ApiController):
         if uid:
             player = PlayerDao().retrieveById(uid)
 
-            if self.get_endpoint() == 'games':
-                return player.get_games(GameDao().retrieveAll())
+            if self.get_endpoint() == 'matches':
+                return player.get_matches(MatchDao().retrieveAll())
 
             elif self.get_endpoint() == 'tournaments':
                 return player.get_tournaments(TournamentDao().retrieveAll())
@@ -89,14 +89,14 @@ class PlayerApiController(ApiController):
         return self.gen_response(query)
 
 
-    def get_games(self, uid):
+    def get_matches(self, uid):
         player = PlayerDao().retrieveById(uid)
-        games = []
-        for game in GameDao().retrieveAll():
-            if str(player['_id']) in game['players']:
-                games.append(game)
+        matches = []
+        for match in MatchDao().retrieveAll():
+            if str(player['_id']) in match['players']:
+                matches.append(match)
 
-        return self.gen_response(games)
+        return self.gen_response(matches)
 
     def getTournaments(self, uid):
         #TODO

@@ -1,21 +1,21 @@
 class Tournament:
 
-    def __init__(self, id, name, format, players=[], games=[]):
+    def __init__(self, id, name, format, players=[], matches=[]):
         self.id = id
         self.name = name
         self.players = players
-        self.games = games
+        self.matches = matches
         self.format = format
 
     def get_player_performance(self, player):
         performance = (0, 0)
-        for game in self.games:
-            if player.id in game.players.keys():
-                if game.get_victor() == player.id:
+        for match in self.matches:
+            if player.id in match.players.keys():
+                if match.get_victor() == player.id:
                     performance[0] += 1
 
-                offset = game.players[player.id]
-                for player in game.players:
+                offset = match.players[player.id]
+                for player in match.players:
                     offset -= player.value()
                 performance[1] += offset
 

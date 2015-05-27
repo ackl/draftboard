@@ -1,6 +1,6 @@
 import operator
 
-class Game:
+class Match:
 
     def __init__(self, id, players, best_of, format):
         self.id = id

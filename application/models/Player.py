@@ -5,27 +5,27 @@ class Player:
         self.name = name
         self.life = life
 
-    def get_games(self, all_games):
-        games = []
-        for game in all_games:
-            if self.id in game.players.keys():
-                games.append(game)
+    def get_matches(self, all_matches):
+        matches = []
+        for match in all_matches:
+            if self.id in match.players.keys():
+                matches.append(match)
 
-        return games
+        return matches
 
-    def get_current_game(self, games):
-        for game in games:
-            if game.is_ongoing():
-                return game
+    def get_current_match(self, matches):
+        for match in matches:
+            if match.is_ongoing():
+                return match
 
         return None
 
-    def get_performance(self, games):
+    def get_performance(self, matches):
         performance = [0, 0]
-        for game in games:
-            if game.get_victor() == None:
+        for match in matches:
+            if match.get_victor() == None:
                 pass
-            elif game.get_victor() == self.id:
+            elif match.get_victor() == self.id:
                 performance[0] += 1
             else:
                 performance[1] += 1

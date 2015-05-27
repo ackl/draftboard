@@ -14,14 +14,14 @@ class TournamentApiController(ApiController):
     url_rules = {
         'index': ['/', ('GET','POST',), {'tournament_id': None}],
         'select': ['/<tournament_id>', ('GET','PUT','DELETE',)],
-        'games': ['/<uid>/games', ('GET',)],
+        'matches': ['/<uid>/matches', ('GET',)],
         'participants': ['/<uid>/participants', ('GET',)]
     }
 
     def get(self, tournament_id):
         if tournament_id:
-            if self.get_endpoint() == 'games':
-                return self.getTournamentGames(uid)
+            if self.get_endpoint() == 'matches':
+                return self.getTournamentMatches(uid)
 
             elif self.get_endpoint() == 'participants':
                 return self.getTournamentPlayers(uid)
@@ -39,7 +39,7 @@ class TournamentApiController(ApiController):
                 request.json['name'],
                 request.json['players'],
                 request.json['format'],
-                request.json['games'])
+                request.json['matches'])
 
         query = TournamentDao().create(tournament)
         return self.gen_response(query)
@@ -51,7 +51,7 @@ class TournamentApiController(ApiController):
                 request.json['name'],
                 request.json['players'],
                 request.json['format'],
-                request.json['games'])
+                request.json['matches'])
 
         query = TournamentDao().updateById(tournament_id, tournament)
         return self.gen_response(query)
@@ -64,6 +64,6 @@ class TournamentApiController(ApiController):
         #TODO
         return
 
-    def getTournamentGames(tournament_id):
+    def getTournamentMatches(tournament_id):
         #TODO
         return
