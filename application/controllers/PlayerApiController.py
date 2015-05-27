@@ -54,11 +54,13 @@ class PlayerApiController(ApiController):
 
     def get(self, uid):
         if uid:
+            player = PlayerDao().retrieveById(uid)
+
             if self.get_endpoint() == 'games':
-                return self.get_games(uid)
+                return player.get_games(GameDao().retrieveAll())
 
             elif self.get_endpoint() == 'tournaments':
-                return self.get_tournaments(uid)
+                return player.get_tournaments(TournamentDao().retrieveAll())
 
             else:
                 query = PlayerDao().retrieveById(uid)

@@ -21,9 +21,11 @@ class Player:
         return None
 
     def get_performance(self, games):
-        performance = (0, 0)
+        performance = [0, 0]
         for game in games:
-            if game.get_victor() == self.id:
+            if game.get_victor() == None:
+                pass
+            elif game.get_victor() == self.id:
                 performance[0] += 1
             else:
                 performance[1] += 1
@@ -33,7 +35,7 @@ class Player:
     def get_tournaments(self, all_tournaments):
         tournaments = []
         for tournament in all_tournaments:
-            if self.id in tournament.players.keys():
-                tournamnets.append(tournament)
+            if self.id in tournament.players:
+                tournaments.append(tournament)
 
         return tournaments

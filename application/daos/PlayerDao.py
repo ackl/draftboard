@@ -16,43 +16,55 @@ class PlayerDao:
         return self.retrieveById(player_id)
 
     def retrieveAll(self):
-        return self.players.find()
+        player_docs = self.players.find()
+        player_objects = []
+        for doc in player_docs:
+            player_objects.append(Player(doc['_id'], doc['name'], doc['life']))
+
+        return player_objects
 
     def retrieveById(self, id):
         id = ObjectId(id)
         player_doc = self.players.find_one({'_id': id})
         player = Player(id, player_doc['name'], player_doc['life'])
+
         return player
-        #return self.players.find_one({'_id': id})
 
     def retrieveByName(self, name):
-        return self.players.find_one({'name': name})
+        player_doc = self.players.find_one({'name': name})
+        player = Player(player_doc['_id'], name, player_doc['life'])
+
+        return player
 
     def updateById(self, id, player):
         id = ObjectId(id)
+
         return self.players.update({'_id': id}, player.__dict__)
-
-    def updateLifeById(self, id, life):
-        id = ObjectId(id)
-        return self.players.update({'_id': id}, {"$set": {"life": life}}, upsert=False)
-
+    
     def updateByName(self, name, player):
         return self.players.update({'name': name}, player.__dict__)
 
+    def updateLifeById(self, id, life):
+        id = ObjectId(id)
+        
+        return self.players.update({'_id': id}, {"$set": {"life": life}})
+
+    def updateNameById(self, id, name):
+        id = ObjectId(id)
+
+        return self.players.update({'_id':id}, {"$set": {"name": name}})
+    
     def destroyById(self, id):
-        return self.players.remove({'_id': int(id)})
+        games = self.retrieveById(id).get_games(GameDao.retrieveAll())
+        for game in games:
+            GameDao().destroyById(str(game.id))
+
+        return self.players.remove({'_id': ObjectId(id)})
 
     def destroyByName(self, name):
+        games = self.retrieveByName(name).get_games(GameDao.retrieveAll())
+        for game in games:
+            GameDao().destroyById(str(game.id))
+
         return self.players.remove({'name': name})
 
-
-    def getValidId(self):
-        max = 0
-        for player in self.players.find():
-            try:
-                if player['id'] > max:
-                    max = player['id']
-            except:
-                pass
-
-        return max + 1
