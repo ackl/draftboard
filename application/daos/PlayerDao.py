@@ -55,16 +55,16 @@ class PlayerDao:
         return self.players.update({'_id':id}, {"$set": {"name": name}})
 
     def destroyById(self, id):
-        games = self.retrieveById(id).get_games(GameDao.retrieveAll())
-        for game in games:
-            GameDao().destroyById(str(game.id))
+        matches = self.retrieveById(id).get_matches(MatchDao.retrieveAll())
+        for match in matches:
+            MatchDao().destroyById(str(match.id))
 
         return self.players.remove({'_id': ObjectId(id)})
 
     def destroyByName(self, name):
-        games = self.retrieveByName(name).get_games(GameDao.retrieveAll())
-        for game in games:
-            GameDao().destroyById(str(game.id))
+        matches = self.retrieveByName(name).get_matches(MatchDao.retrieveAll())
+        for match in matches:
+            MatchDao().destroyById(str(match.id))
 
         return self.players.remove({'name': name})
 
