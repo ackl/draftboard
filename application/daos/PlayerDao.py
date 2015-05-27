@@ -40,20 +40,20 @@ class PlayerDao:
         id = ObjectId(id)
 
         return self.players.update({'_id': id}, player.__dict__)
-    
+
     def updateByName(self, name, player):
         return self.players.update({'name': name}, player.__dict__)
 
     def updateLifeById(self, id, life):
         id = ObjectId(id)
-        
+
         return self.players.update({'_id': id}, {"$set": {"life": life}})
 
     def updateNameById(self, id, name):
         id = ObjectId(id)
 
         return self.players.update({'_id':id}, {"$set": {"name": name}})
-    
+
     def destroyById(self, id):
         games = self.retrieveById(id).get_games(GameDao.retrieveAll())
         for game in games:

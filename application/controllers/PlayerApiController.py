@@ -93,7 +93,7 @@ class PlayerApiController(ApiController):
         player = PlayerDao().retrieveById(uid)
         matches = []
         for match in MatchDao().retrieveAll():
-            if str(player['_id']) in match['players']:
+            if str(player['_id']) in match['player_scores']:
                 matches.append(match)
 
         return self.gen_response(matches)

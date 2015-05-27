@@ -27,7 +27,7 @@ class MatchApiController(ApiController):
     def post(self):
         match = Match(
                 MatchDao().getValidId(),
-                request.json['players'],
+                request.json['player_scores'],
                 request.json['format'])
 
         query = MatchDao().create(match)
@@ -36,7 +36,7 @@ class MatchApiController(ApiController):
     def put(self, match_id):
         match = Match(
                 match_id,
-                request.json['players'],
+                request.json['player_scores'],
                 request.json['format'])
 
         query = MatchDao().updateById(match_id, match)

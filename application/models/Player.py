@@ -8,7 +8,7 @@ class Player:
     def get_matches(self, all_matches):
         matches = []
         for match in all_matches:
-            if self.id in match.players.keys():
+            if self.id in match.player_scores.keys():
                 matches.append(match)
 
         return matches
