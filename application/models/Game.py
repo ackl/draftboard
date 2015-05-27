@@ -16,7 +16,12 @@ class Game:
 
     def is_ongoing(self):
         for player_wins in self.players.values():
-            if player_wins >= self.best_of/2:
+            if player_wins >= self.best_of/2.0:
                 return False
 
         return True
+
+    def add_victor(self, player_id):
+        if player_id in self.players and self.is_ongoing():
+            self.players[player_id] = self.players[player_id] + 1
+
