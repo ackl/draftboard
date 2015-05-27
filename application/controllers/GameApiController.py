@@ -11,7 +11,8 @@ blueprint = Blueprint('game_api', __name__, url_prefix='/api/games')
 
 class GameApiController(ApiController):
     url_rules = {
-        'index': ['/', ('GET','POST',), {'game_id': None}],
+        'index': ['/', ('GET',), {'game_id': None}],
+        'add': ['/', ('POST',)],
         'select': ['/<game_id>', ('GET','PUT','DELETE',)]
     }
 

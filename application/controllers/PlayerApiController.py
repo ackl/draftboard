@@ -4,6 +4,7 @@ from flask.views import MethodView
 from application.controllers.ApiController import ApiController
 
 from application.daos.PlayerDao import PlayerDao
+from application.daos.GameDao import GameDao
 from application.models.Player import Player
 from application import get_socket
 from flask.ext.socketio import emit
@@ -45,7 +46,11 @@ class PlayerApiController(ApiController):
 
     url_rules = {
         'index': ['/', ('GET',), {'uid': None}],
+<<<<<<< HEAD
         'create': ['/', ('POST',)],
+=======
+        'add': ['/', ('POST',)],
+>>>>>>> Implemented retrieving games for a player
         'select': ['/<uid>', ('GET','PUT','DELETE',)],
         'games': ['/<uid>/games', ('GET',)],
         'tournaments': ['/<uid>/tournaments', ('GET',)]
@@ -54,10 +59,10 @@ class PlayerApiController(ApiController):
     def get(self, uid):
         if uid:
             if self.get_endpoint() == 'games':
-                return self.getGames(uid)
+                return self.get_games(uid)
 
             elif self.get_endpoint() == 'tournaments':
-                return self.getTournaments(uid)
+                return self.get_tournaments(uid)
 
             else:
                 query = PlayerDao().retrieveById(uid)
@@ -85,9 +90,15 @@ class PlayerApiController(ApiController):
         query = PlayerDao().destroyById(uid)
         return self.gen_response(query)
 
-    def getGames(self, uid):
-        #TODO
-        return '200'
+
+    def get_games(self, uid):
+        player = PlayerDao().retrieveById(uid)
+        games = []
+        for game in GameDao().retrieveAll():
+            if str(player['_id']) in game['players']:
+                games.append(game)
+
+        return self.gen_response(games)
 
     def getTournaments(self, uid):
         #TODO

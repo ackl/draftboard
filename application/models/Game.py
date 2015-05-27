@@ -2,7 +2,7 @@ import operator
 
 class Game:
 
-    def __init__(self, id, players, format, tournament):
+    def __init__(self, id, players, format):
         self.id = id
         self.players = players
         self.format = format
