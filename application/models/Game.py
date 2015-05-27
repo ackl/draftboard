@@ -16,7 +16,7 @@ class Game:
 
     def is_ongoing(self):
         for player_wins in self.players.values():
-            if player_wins > self.best_of/2:
+            if player_wins >= self.best_of/2:
                 return False
 
-        return True 
+        return True
