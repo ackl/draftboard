@@ -1,3 +1,6 @@
+from application import db
+players = db.players
+
 class Player:
 
     def __init__(self, id, name, life=20):
@@ -39,3 +42,9 @@ class Player:
                 tournaments.append(tournament)
 
         return tournaments
+
+    def update_life(self, value):
+
+        self.life += value
+        #self.dao.updateById(self.id, self)
+        players.update({'_id': self.id}, self.__dict__)

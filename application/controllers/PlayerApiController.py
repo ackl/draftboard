@@ -16,33 +16,6 @@ blueprint = Blueprint('player_api', __name__, url_prefix='/api/players')
 socketio = get_socket()
 playerDao = PlayerDao()
 
-def changeLife(increment, amount, _id):
-    player = playerDao.retrieveById(_id)
-
-    if increment:
-        player.life += amount
-    else:
-        player.life -= amount
-
-    playerDao.updateById(_id, player)
-
-    player = playerDao.retrieveById(_id)
-    return player
-
-
-@socketio.on('lose_life')
-def decreaseLife(data):
-    player = changeLife(False, data['amount'], data['player_id'])
-    emit('response', {'player_id': str(player.id), 'life': player.life}, broadcast=True)
-
-@socketio.on('gain_life')
-def increaseLife(data):
-    player = changeLife(True, data['amount'], data['player_id'])
-    emit('response', {'player_id': str(player.id), 'life': player.life}, broadcast=True)
-
-@socketio.on('broadcast_message:send')
-def broadcastMessage(data):
-    emit('broadcast_message:receive', {'message': data['message']}, broadcast=True)
 
 class PlayerApiController(ApiController):
 
@@ -111,4 +84,24 @@ class PlayerApiController(ApiController):
         #TODO
         return '200'
 
-#PlayerApiController.register(blueprint)
+    @staticmethod
+    @socketio.on('broadcast_message:send')
+    def broadcastMessage(data):
+        emit('broadcast_message:receive', {'message': data['message']}, broadcast=True)
+
+    @staticmethod
+    @socketio.on('lose_life')
+    def decreaseLife(data):
+        player = playerDao.retrieveById(data['player_id'])
+        player.update_life(-data['amount'])
+        emit('response', {'player_id': str(player.id), 'life': player.life}, broadcast=True)
+
+    @staticmethod
+    @socketio.on('gain_life')
+    def increaseLife(data):
+        player = playerDao.retrieveById(data['player_id'])
+        player.update_life(data['amount'])
+        emit('response', {'player_id': str(player.id), 'life': player.life}, broadcast=True)
+
+
+
