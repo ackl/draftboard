@@ -2,4 +2,4 @@ from unittest import TestLoader, TextTestRunner
 
 suite = TestLoader().discover('.', 'test_*.py')
 
-TextTestRunner().run(suite)
+TextTestRunner(verbosity=2).run(suite)

@@ -11,6 +11,7 @@ class ModelTestCase(TestCase):
         player_1 = Player(1, "Paulo")
         player_2 = Player(2, "Andrew")
         player_3 = Player(3, "Trampy")
+        player_4 = Player(4, "yer mum")
 
         self.all_matches = []
 
@@ -24,14 +25,17 @@ class ModelTestCase(TestCase):
         self.player_1_matches = player_1.get_matches(self.all_matches)
         self.player_2_matches = player_2.get_matches(self.all_matches)
         self.player_3_matches = player_3.get_matches(self.all_matches)
+        self.player_4_matches = player_4.get_matches(self.all_matches)
 
         self.player_1_current_match = player_1.get_current_match(self.player_1_matches)
         self.player_2_current_match = player_2.get_current_match(self.player_2_matches)
         self.player_3_current_match = player_3.get_current_match(self.player_3_matches)
+        self.player_4_current_match = player_4.get_current_match(self.player_4_matches)
 
         self.player_1_performance = player_1.get_performance(self.player_1_matches)
         self.player_2_performance = player_2.get_performance(self.player_2_matches)
         self.player_3_performance = player_3.get_performance(self.player_3_matches)
+        self.player_4_performance = player_4.get_performance(self.player_4_matches)
 
         all_tournaments = []
 
@@ -41,24 +45,29 @@ class ModelTestCase(TestCase):
         self.player_1_tournaments = player_1.get_tournaments(all_tournaments)
         self.player_2_tournaments = player_2.get_tournaments(all_tournaments)
         self.player_3_tournaments = player_3.get_tournaments(all_tournaments)
-
+        self.player_4_tournaments = player_4.get_tournaments(all_tournaments)
+        
 
     def test_get_matches(self):
-        self.assertEqual(self.player_1_matches, [self.match_1, self.match_3])
-        self.assertEqual(self.player_2_matches, self.all_matches)
-        self.assertEqual(self.player_3_matches, [self.match_2])
+        """Retrieving a list of matches that involve a player."""
+        assert self.player_1_matches == [self.match_1, self.match_3], 'more than one match'
+        assert self.player_2_matches == self.all_matches, 'all matches'
+        assert self.player_3_matches == [self.match_2], 'one match'
+        assert self.player_4_matches == [], 'no matches'
 
     def test_get_current_match(self):
-        self.assertEqual(self.player_1_current_match, self.match_3)
-        self.assertEqual(self.player_2_current_match, self.match_3)
-        self.assertEqual(self.player_3_current_match, None)
+        """Retrieve the ongoing match for a player, if any."""
+        assert self.player_1_current_match == self.match_3, 'ongoing match'
+        assert self.player_3_current_match ==  None, 'no ongoing match'
+        assert self.player_4_current_match == None, 'no matches'
 
     def test_get_performance(self):
-        self.assertEqual(self.player_1_performance, [1, 0])
-        self.assertEqual(self.player_2_performance, [0, 2])
-        self.assertEqual(self.player_3_performance, [1, 0])
+        """Calculate performance (wins, losses) for a player."""
+        assert self.player_2_performance == [0, 2], 'ongoing match'
+        assert self.player_3_performance == [1, 0], 'no ongoing match'
+        assert self.player_4_performance == [0, 0], 'no matches'
 
     def test_get_tournaments(self):
-        self.assertEqual(self.player_1_tournaments, [self.tournament])
-        self.assertEqual(self.player_2_tournaments, [self.tournament])
-        self.assertEqual(self.player_3_tournaments, [])
+        """Retrieve a list of tournaments that involve a player."""
+        assert self.player_1_tournaments == [self.tournament], 'one tournament'
+        assert self.player_3_tournaments ==  [], 'no tournaments'
