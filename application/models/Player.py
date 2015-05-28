@@ -7,6 +7,16 @@ class Player(MongoModel):
 
     collection = db.players
 
+    fields = [{
+            'identifier': 'name',
+            'required': True
+        },
+        {
+            'identifier': 'life',
+            'required': True,
+            'default': 20
+        }]
+
     def get_matches(self, all_matches):
         matches = []
         for match in all_matches:

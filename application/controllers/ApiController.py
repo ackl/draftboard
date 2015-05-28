@@ -1,4 +1,4 @@
-from flask import request, Blueprint, Response, make_response
+from flask import request, Blueprint, Response, make_response, jsonify
 from flask.views import MethodView
 
 from bson.json_util import dumps
@@ -16,6 +16,13 @@ class ApiController(MethodView):
             response = Response(dumps(payload.__dict__), mimetype='application/json')
 
         return make_response(response)
+
+    def error_response(self, e):
+        return jsonify({
+            'error_type': type(e).__name__,
+            'error_message': str(e)
+        }), 400
+
 
     def get_endpoint(self):
         return str(request.url_rule).split('/')[-1]

@@ -49,19 +49,24 @@ class PlayerApiController(ApiController):
             return self.gen_response(query)
 
     def post(self):
-        player = Player.create({'name': request.json['name'], 'life': 20})
-
-        socketio.emit('new_player', {'player': {'name': player.name, 'life': player.life, '_id': str(player._id)}})
-        return '200'
+        try:
+            player = Player.create(request.json)
+            socketio.emit('new_player', {'player': {'name': player.name, 'life': player.life, '_id': str(player._id)}})
+            return self.gen_response(player)
+        except Exception as e:
+            return self.error_response(e)
 
 
     def put(self, uid):
         player = Player.query({'_id': uid})
-        for key, value in request.json.iteritems():
-            setattr(player, key, value)
+
+        try:
+            player.update(request.json)
+        except Exception as e:
+            return self.error_response(e)
 
         socketio.emit('response', {'player_id': str(player._id), 'life': player.life})
-        return self.gen_response(player.update())
+        return self.gen_response(player)
 
     def delete(self, uid):
         query = Player.destroy({'_id': uid})
@@ -88,15 +93,13 @@ class PlayerApiController(ApiController):
     @socketio.on('lose_life')
     def decreaseLife(data):
         player = Player.query({'_id': data['player_id']})
-        player.life -= data['amount']
-        player.update()
+        player.update({'life': player.life - data['amount']})
         emit('response', {'player_id': str(player._id), 'life': player.life}, broadcast=True)
 
     @socketio.on('gain_life')
     def increaseLife(data):
         player = Player.query({'_id': data['player_id']})
-        player.life += data['amount']
-        player.update()
+        player.update({'life': player.life + data['amount']})
         emit('response', {'player_id': str(player._id), 'life': player.life}, broadcast=True)
 
 
