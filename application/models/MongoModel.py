@@ -164,6 +164,16 @@ class MongoModel:
             else:
                 return str(field)
 
+    def generate_json(self):
+        json_dict = self.__dict__
+        json_extra = self.json_helper()
+
+        if json_extra is not None:
+            for key, value in json_extra.iteritems():
+                json_dict[key] = value
+
+        return json_dict
+
 
 
 

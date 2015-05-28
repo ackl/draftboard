@@ -8,31 +8,26 @@ class ApiController(MethodView):
     url = '/'
 
     def gen_response(self, payload):
+        """Generates an HTTP response with JSON content type header
+           Paramaters
+           * payload: MongoModel object or list of MongoModel objects
+        """
+
         response = None
 
         if type(payload) is list:
             json_list = []
 
             for obj in payload:
-                json_list.append(self.generate_json(obj))
+                json_list.append(obj.generate_json())
 
             response = Response(dumps(json_list), mimetype='application/json')
 
         else:
-            json_dict = self.generate_json(payload)
+            json_dict = payload.generate_json()
             response = Response(dumps(json_dict), mimetype='application/json')
 
         return make_response(response)
-
-    def generate_json(self, obj):
-        json_dict = obj.__dict__
-        json_extra = obj.json_helper()
-
-        if json_extra is not None:
-            for key, value in json_extra.iteritems():
-                json_dict[key] = value
-
-        return json_dict
 
 
     def error_response(self, e):
