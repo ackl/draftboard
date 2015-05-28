@@ -1,12 +1,11 @@
 from application import db
-players = db.players
 
-class Player:
+from MongoModel import MongoModel
 
-    def __init__(self, id, name, life=20):
-        self.id = id
-        self.name = name
-        self.life = life
+
+class Player(MongoModel):
+
+    collection = db.players
 
     def get_matches(self, all_matches):
         matches = []
@@ -42,9 +41,3 @@ class Player:
                 tournaments.append(tournament)
 
         return tournaments
-
-    def update_life(self, value):
-
-        self.life += value
-        #self.dao.updateById(self.id, self)
-        players.update({'_id': self.id}, self.__dict__)
