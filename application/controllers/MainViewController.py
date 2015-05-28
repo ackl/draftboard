@@ -1,20 +1,14 @@
 from flask import Flask, render_template, request, url_for, Blueprint
-from flask.views import MethodView
-from flask.ext.socketio import SocketIO, emit
-from bson.objectid import ObjectId
 
-import uuid
+from application import get_app
 
-from application.controllers.ApiController import ApiController
+app = get_app()
 
-blueprint = Blueprint('main_view', __name__, url_prefix='/')
+@app.route('/')
+def indexView():
+    return render_template("index.html")
 
+@app.route('/matches')
+def gamesView():
+    return render_template("matches.html")
 
-class MainViewController(ApiController):
-    url_rules = {
-        'index': ['/', ('GET','POST',)]
-    }
-
-
-    def get(self):
-        return render_template("index.html")

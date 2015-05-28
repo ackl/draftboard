@@ -1,6 +1,7 @@
 from application import db
 
 from MongoModel import MongoModel
+from Match import Match
 
 
 class Player(MongoModel):
@@ -9,24 +10,21 @@ class Player(MongoModel):
 
     fields = [{
             'identifier': 'name',
-            'required': True
+            'required': True,
+            'type': str
         },
         {
             'identifier': 'life',
             'required': True,
+            'type': int,
             'default': 20
         }]
 
-    def get_matches(self, all_matches):
-        matches = []
-        for match in all_matches:
-            if self.id in match.player_scores.keys():
-                matches.append(match)
+    def get_matches(self):
+        return [match for match in Match.query() if str(self._id) in match.player_scores.keys()]
 
-        return matches
-
-    def get_current_match(self, matches):
-        for match in matches:
+    def get_current_match(self):
+        for match in self.get_matches():
             if match.is_ongoing():
                 return match
 
@@ -51,3 +49,9 @@ class Player(MongoModel):
                 tournaments.append(tournament)
 
         return tournaments
+
+    def json_helper(self):
+        if self.get_current_match() is not None:
+            return {"current_match": self.get_current_match().__dict__}
+        return
+

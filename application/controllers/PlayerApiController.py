@@ -6,6 +6,7 @@ from application.controllers.ApiController import ApiController
 from application.daos.MatchDao import MatchDao
 from application.daos.TournamentDao import TournamentDao
 from application.models.Player import Player
+from application.errors import MongoModelError
 from application import get_socket
 from flask.ext.socketio import emit
 from pymongo.errors import InvalidId
@@ -21,6 +22,7 @@ class PlayerApiController(ApiController):
         'create': ['/', ('POST',)],
         'select': ['/<uid>', ('GET','PUT','DELETE',)],
         'matches': ['/<uid>/matches', ('GET',)],
+        'current_match': ['/<uid>/matches/current', ('GET',)],
         'tournaments': ['/<uid>/tournaments', ('GET',)]
     }
 
@@ -35,7 +37,10 @@ class PlayerApiController(ApiController):
                 })
 
             if self.get_endpoint() == 'matches':
-                return self.gen_response(player.get_matches(MatchDao().retrieveAll()))
+                return self.gen_response(player.get_matches())
+
+            elif self.get_endpoint() == 'current':
+                return self.gen_response(player.get_current_match())
 
             elif self.get_endpoint() == 'tournaments':
                 return self.gen_response(player.get_tournaments(TournamentDao().retrieveAll()))
@@ -53,7 +58,7 @@ class PlayerApiController(ApiController):
             player = Player.create(request.json)
             socketio.emit('new_player', {'player': {'name': player.name, 'life': player.life, '_id': str(player._id)}})
             return self.gen_response(player)
-        except Exception as e:
+        except MongoModelError as e:
             return self.error_response(e)
 
 
@@ -62,7 +67,7 @@ class PlayerApiController(ApiController):
 
         try:
             player.update(request.json)
-        except Exception as e:
+        except MongoModelError as e:
             return self.error_response(e)
 
         socketio.emit('response', {'player_id': str(player._id), 'life': player.life})

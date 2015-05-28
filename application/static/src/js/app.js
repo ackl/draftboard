@@ -4,12 +4,20 @@ socket = io.connect('http://' + document.domain + ':' + location.port);
 var playerControl = require('./playerControl'),
     newPlayer = require('./newPlayer'),
     chatbox = require('./chatbox'),
-    playersView = require('./playersView');
+    playersView = require('./playersView'),
+    gamesView = require('./gamesView');
 
 
 chatbox.initialise();
-newPlayer.initialise();
-playersView.initialise();
+
+var path = location.pathname;
+
+if (path === '/') {
+    newPlayer.initialise();
+    playersView.initialise();
+} else if (path === '/matches') {
+    gamesView.initialise();
+}
 
 $(function() {
     socket.on('connect', function() {

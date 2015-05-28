@@ -1,0 +1,19 @@
+{% raw %}
+<script type="text/mustache" id="playersListTemplate">
+<h1>Matches:</h1>
+    <ul>
+        {{#games}}
+        <li class="match-list-item">
+            <h4>Match ID: {{_id.$oid}}</h4>
+            <h4>Players:</h4>
+            <ul>
+                {{#players}}
+                <li data-player-id="{{_id.$oid}}">{{name}} | <span class="life-counter">{{life}}</span></li>
+                {{/players}}
+            </ul>
+        </li>
+        {{/games}}
+    </ul>
+</script>
+{% endraw %}
+

@@ -19,10 +19,12 @@ createPlayer = function(name) {
 
 
 socket.on('response', function(data) {
+    console.log(data)
     var $player = $('[data-player-id="' + data.player_id + '"]'),
         life = $player.find('.life-counter');
 
     life.text(data.life);
+    //$('.match-list-item').find('.life').text(data.life)
 
     $player.find('.progress-radial').attr('class', 'progress-radial');
 

@@ -16,12 +16,10 @@
 
     {% include 'navigation.html' %}
 
-    {% include 'forms/newPlayerForm.html' %}
-
-    <div class="row players"></div>
-    {% include 'playerTemplate.html' %}
+    <div class="page"></div>
 
     {% include 'chatbox.html' %}
+    {% include 'playersListTemplate.html' %}
     <script type="text/javascript" src="{{url_for('static', filename='dist/js/bundle.js')}}"> </script>
 </body>
 </html>

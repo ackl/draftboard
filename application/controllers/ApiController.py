@@ -11,11 +11,29 @@ class ApiController(MethodView):
         response = None
 
         if type(payload) is list:
-            response = Response(dumps([obj.__dict__ for obj in payload]), mimetype='application/json')
+            json_list = []
+
+            for obj in payload:
+                json_list.append(self.generate_json(obj))
+
+            response = Response(dumps(json_list), mimetype='application/json')
+
         else:
-            response = Response(dumps(payload.__dict__), mimetype='application/json')
+            json_dict = self.generate_json(payload)
+            response = Response(dumps(json_dict), mimetype='application/json')
 
         return make_response(response)
+
+    def generate_json(self, obj):
+        json_dict = obj.__dict__
+        json_extra = obj.json_helper()
+
+        if json_extra is not None:
+            for key, value in json_extra.iteritems():
+                json_dict[key] = value
+
+        return json_dict
+
 
     def error_response(self, e):
         return jsonify({
