@@ -54,6 +54,3 @@ class Match(MongoModel):
 
         return extra_json
 
-
-
-

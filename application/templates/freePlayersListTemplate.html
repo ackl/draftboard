@@ -1,0 +1,14 @@
+{% raw %}
+<script type="text/mustache" id="freePlayersListTemplate">
+<div class="free-players">
+    <ul>
+        {{#players}}
+        <input id="{{_id.$oid}}" type="checkbox"><label for="{{_id.$oid}}">{{name}}</label>
+        {{/players}}
+
+    </ul>
+    <button class="start-game disabled" disabled>Start Game</button>
+</div>
+
+</script>
+{% endraw %}

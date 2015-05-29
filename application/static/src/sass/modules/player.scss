@@ -84,3 +84,22 @@ $half: round($loops / 2);
     }
   }
 }
+
+
+.free-players {
+    li {
+        cursor: pointer;
+
+        i.fa {
+            display: none;
+        }
+
+        &.selected {
+            color: blue;
+
+            i.fa {
+                display: inline;
+            }
+        }
+    }
+}

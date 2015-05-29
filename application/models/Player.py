@@ -55,3 +55,9 @@ class Player(MongoModel):
             return {"current_match": self.get_current_match().__dict__}
         return
 
+    def update(self, doc):
+        MongoModel.update(self, doc)
+        print 'overridden update method'
+        if self.life is 0:
+            print 'dis guy b ded'
+        return self

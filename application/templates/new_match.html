@@ -14,13 +14,15 @@
 </head>
 <body>
 
+
     {% include 'navigation.html' %}
 
-    <div class="page"></div>
+    <div class="page">
+        <h1>new match page</h1>
+    </div>
 
-    <a href="/matches/new">New Match</a>
     {% include 'chatbox.html' %}
-    {% include 'MatchListTemplate.html' %}
+    {% include 'freePlayersListTemplate.html' %}
     <script type="text/javascript" src="{{url_for('static', filename='dist/js/bundle.js')}}"> </script>
 </body>
 </html>

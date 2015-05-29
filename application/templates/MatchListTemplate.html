@@ -1,11 +1,12 @@
 {% raw %}
-<script type="text/mustache" id="playersListTemplate">
+<script type="text/mustache" id="MatchListTemplate">
 <h1>Matches:</h1>
     <ul>
         {{#games}}
         <li class="match-list-item">
             <h4>Match ID: {{_id.$oid}}</h4>
             <h4>Players:</h4>
+            <h4>Ongoing: {{is_ongoing}}</h4>
             <ul>
                 {{#players}}
                 <li data-player-id="{{_id.$oid}}">{{name}} | <span class="life-counter">{{life}}</span></li>

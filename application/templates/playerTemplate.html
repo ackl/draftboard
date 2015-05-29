@@ -2,16 +2,20 @@
 <script type="text/mustache" id="playerTemplate">
     <div class="player player__{{player.name}} columns medium-6 large-4" data-player-id="{{player._id}}">
         <h4 class="player__name">{{player.name}}</h4>
-        {{player.current_match._id.$oid}}
+        {{#if player.current_match}}
+            <a href="/matches/{{player.current_match._id.$oid}}">See current match</a>
+        {{/if}}
+
+
         <div class="player__wrap">
             <div class="progress-radial progress-0">
                 <div class="life-counter overlay">{{player.life}}</div>
             </div>
 
-            <div class="player__controls">
-                <button class="button small fa-plus fa"></button>
-                <button class="button small fa-minus fa"></button>
-            </div>
+            <!--<div class="player__controls">-->
+                <!--<button class="button small fa-plus fa"></button>-->
+                <!--<button class="button small fa-minus fa"></button>-->
+            <!--</div>-->
         </div>
     </div>
 </script>
