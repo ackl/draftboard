@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from application import create_app, get_socket, get_app
 
 app = get_app()

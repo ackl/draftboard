@@ -3,10 +3,11 @@ var playerControl = require('./playerControl');
 var newMatchControl = can.Control.extend({
     init: function(el, opts) {
         //this.element.find('input:checked') = el.find('input:checked');
-        console.log(el.find('input').length);
         if (!el.find('input').length) {
             el.html('<p>No players are available for a game right now</p>');
         }
+
+        this.$bestOf = el.find(opts.bestOf);
     },
 
     'button.start-game click': function(el, ev) {
@@ -17,19 +18,24 @@ var newMatchControl = can.Control.extend({
             playerScores[playerId] = 0;
         });
 
+
         console.log(JSON.stringify({'player_scores': playerScores}));
+        var bestOf = this.$bestOf[this.$bestOf.filter('.selected').index()].innerText;
+        console.log(bestOf);
+
         $.ajax({
             type: 'POST',
             url: '/api/matches/',
             data: JSON.stringify({
-                player_scores: JSON.stringify(playerScores)
+                player_scores: JSON.stringify(playerScores),
+                best_of: bestOf
             }),
             contentType: 'application/json; charset=utf-8',
             dataType: 'json'
         }).then(function(data) {
             console.log(data);
             if ('is_ongoing' in data) {
-                location.href = '/matches/' + data._id.$oid;
+                location.href = '/matches/' + data._id;
             }
         });
     },
@@ -41,6 +47,11 @@ var newMatchControl = can.Control.extend({
         } else {
             button.addClass('disabled').attr('disabled', true);
         }
+    },
+
+    '{bestOf} click': function(el, ev) {
+        this.$bestOf.removeClass('selected');
+        el.addClass('selected');
     }
 });
 
@@ -57,7 +68,7 @@ module.exports = {
             var frag = can.view('freePlayersListTemplate', {'players': freePlayers}, {});
             $('.page').append(frag);
 
-            new newMatchControl('.free-players');
+            new newMatchControl('.free-players', {bestOf: '.best-of__option'});
         });
     }
 }

@@ -1,14 +1,21 @@
 {% raw %}
 <script type="text/mustache" id="freePlayersListTemplate">
-<div class="free-players">
-    <ul>
-        {{#players}}
-        <input id="{{_id.$oid}}" type="checkbox"><label for="{{_id.$oid}}">{{name}}</label>
-        {{/players}}
+<div class="free-players row">
+    <div class="column">
+            {{#players}}
+            <input id="{{_id}}" type="checkbox"><label for="{{_id}}">{{name}}</label>
+            {{/players}}
+    </div>
 
-    </ul>
+    <div class="column">
+        <div class="row best-of">
+            <div class="best-of__option columns small-3"><p>1</p></div>
+            <div class="best-of__option selected columns small-3"><p>3</p></div>
+            <div class="best-of__option columns small-3"><p>5</p></div>
+            <div class="best-of__option columns small-3"><p>7</p></div>
+        </div>
+    </div>
     <button class="start-game disabled" disabled>Start Game</button>
 </div>
-
 </script>
 {% endraw %}

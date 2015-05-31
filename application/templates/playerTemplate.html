@@ -3,7 +3,7 @@
     <div class="player player__{{player.name}} columns medium-6 large-4" data-player-id="{{player._id}}">
         <h4 class="player__name">{{player.name}}</h4>
         {{#if player.current_match}}
-            <a href="/matches/{{player.current_match._id.$oid}}">See current match</a>
+            <a href="/matches/{{player.current_match._id}}">See current match</a>
         {{/if}}
 
 

@@ -5,7 +5,7 @@ from application.controllers.ApiController import ApiController
 
 from application.daos.MatchDao import MatchDao
 from application.models.Match import Match
-from application.errors import NoSuchFieldError, MissingRequiredFieldError, TypeCoercionError
+from application.errors import NoSuchFieldError, MissingRequiredFieldError, TypeCoercionError, InvalidFieldValueError
 
 blueprint = Blueprint('match_api', __name__, url_prefix='/api/matches')
 
@@ -29,7 +29,7 @@ class MatchApiController(ApiController):
             match = Match.create(request.json)
             return self.gen_response(match)
 
-        except (NoSuchFieldError, TypeCoercionError) as e:
+        except (NoSuchFieldError, TypeCoercionError, MissingRequiredFieldError, InvalidFieldValueError) as e:
             return self.error_response(e)
 
 

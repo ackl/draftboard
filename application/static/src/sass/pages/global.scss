@@ -1,3 +1,5 @@
+@import '../_variables';
+
 * {
     box-sizing: border-box;
 }
@@ -9,4 +11,23 @@ html, body {
 
 nav.top-bar {
     margin-bottom: 35px;
+}
+
+
+.best-of {
+    &__option {
+        border: 1px solid black;
+        text-align: center;
+        height: 100px;
+
+        p {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        &.selected {
+            background: $main-lightest;
+        }
+    }
 }

@@ -46,8 +46,8 @@ class PlayerApiController(ApiController):
                 return self.gen_response(player.get_tournaments(TournamentDao().retrieveAll()))
 
             else:
-                query = Player.query({'_id': uid})
-                return self.gen_response(query)
+                #query = Player.query({'_id': uid})
+                return self.gen_response(player)
 
         else:
             query = Player.query()

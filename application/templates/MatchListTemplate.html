@@ -4,12 +4,12 @@
     <ul>
         {{#games}}
         <li class="match-list-item">
-            <h4>Match ID: {{_id.$oid}}</h4>
+            <h4>Match ID: <a href="/matches/{{_id}}">{{_id}}</a></h4>
             <h4>Players:</h4>
             <h4>Ongoing: {{is_ongoing}}</h4>
             <ul>
                 {{#players}}
-                <li data-player-id="{{_id.$oid}}">{{name}} | <span class="life-counter">{{life}}</span></li>
+                <li data-player-id="{{_id}}">{{name}} | <span class="life-counter">{{life}}</span></li>
                 {{/players}}
             </ul>
         </li>

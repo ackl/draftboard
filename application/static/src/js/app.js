@@ -17,9 +17,6 @@ $(function() {
         socket.emit('connect');
     });
 
-
-
-
     var path = location.pathname;
 
     if (path === '/') {

@@ -9,13 +9,7 @@ module.exports = {
     initialise: function() {
         new Match.get().then(function(data) {
             console.log(data)
-            var frag = can.view('MatchListTemplate', {'games': data}, {
-                renderPlayers: function(a, b) {
-                    console.log('renderplayers', a, b);
-                    console.log(Object.keys(a));
-                    return Object.keys(a);
-                }
-            });
+            var frag = can.view('MatchListTemplate', {'games': data}, {});
             $('.page').append(frag);
         });
     }

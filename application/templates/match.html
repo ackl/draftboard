@@ -19,12 +19,14 @@
     <div class="page">
         <div class="match">
             <h4>Match ID: {{match._id}}</h4>
-            <h4>format {{match.format}}</h4>
-            <h4>best of {{match.best_of}}</h4>
+            <h4>format: {{match.format}}</h4>
+            <h4>best of: {{match.best_of}}</h4>
+            <h4>ongoing: {{match.is_ongoing}}</h4>
             <h4>players:</h4>
             {% for player in match.players %}
             <div class="player player__{{player.name}} columns medium-6 large-4" data-player-id="{{player._id}}">
                 <h4 class="player__name">{{player.name}}</h4>
+                <p>score: {{player.score}}</p>
                 <div class="player__wrap">
                     <div class="progress-radial progress-0">
                         <div class="life-counter overlay">{{player.life}}</div>

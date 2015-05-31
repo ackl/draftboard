@@ -50,14 +50,24 @@ class Player(MongoModel):
 
         return tournaments
 
-    def json_helper(self):
+    def generate_json(self):
+        json_dict = MongoModel.generate_json(self)
+
         if self.get_current_match() is not None:
-            return {"current_match": self.get_current_match().__dict__}
-        return
+            json_dict['current_match'] = self.get_current_match().__dict__
+
+        return json_dict
 
     def update(self, doc):
+        """Synchronise the model's attributes to the
+        corresponding mongodb document. Call player_died
+        on the current match model if the life field value
+        is 0.
+        """
         MongoModel.update(self, doc)
-        print 'overridden update method'
         if self.life is 0:
-            print 'dis guy b ded'
+            match = self.get_current_match()
+            if match is not None:
+                match.player_died(self._id)
+
         return self
