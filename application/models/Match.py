@@ -1,8 +1,9 @@
-from application import db
+from application import db, get_socket
 
 from MongoModel import MongoModel
 
 import operator, json
+socketio = get_socket()
 
 
 class Match(MongoModel):
@@ -54,7 +55,7 @@ class Match(MongoModel):
 
     def is_ongoing(self):
         for player_wins in self.coerce_type('player_scores').values():
-            if player_wins > self.best_of/2:
+            if player_wins >= self.best_of/2.0:
                 return False
         return True
 
@@ -63,6 +64,12 @@ class Match(MongoModel):
         player_id = str(player_id)
         if player_id in self.player_scores and self.is_ongoing():
             self.player_scores[player_id] = self.player_scores[player_id] + 1
+            socketio.emit('win_game', {
+                'player_id': player_id,
+                'score': self.player_scores[player_id],
+                'finished': self.is_ongoing()
+            })
+
 
         from Player import Player
         for player_id in self.player_scores.keys():

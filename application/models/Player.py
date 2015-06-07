@@ -1,4 +1,4 @@
-from application import db
+from application import db, socketio
 
 from MongoModel import MongoModel
 from Match import Match
@@ -65,6 +65,7 @@ class Player(MongoModel):
         is 0.
         """
         MongoModel.update(self, doc)
+        socketio.emit('response', {'player_id': str(self._id), 'life': self.life})
         if self.life is 0:
             match = self.get_current_match()
             if match is not None:

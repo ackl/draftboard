@@ -18,8 +18,17 @@ createPlayer = function(name) {
     });
 
 
+
+socket.on('win_game', function(data) {
+    console.log(data);
+    if (!data.finished) {
+        $('[data-player-id]').find('.player__controls button').removeClass('disabled').attr('disabled', false);
+    }
+    $('[data-player-id="' + data.player_id + '"]').find('span.score').text(data.score);
+});
+
+
 socket.on('response', function(data) {
-    console.log(data)
     var $player = $('[data-player-id="' + data.player_id + '"]'),
         life = $player.find('.life-counter');
 

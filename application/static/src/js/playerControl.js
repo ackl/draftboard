@@ -10,6 +10,17 @@ var playerControl = can.Control.extend({
 
         var lifeClassFrag = (this.life * 100) / 20;
         el.find('.progress-radial').addClass('progress-' + lifeClassFrag);
+        var that = this;
+
+        socket.on('response', function(data) {
+            if (data.player_id == that._id) {
+                if (data.life == 0) {
+                    that.element.find('button')
+                        .addClass('disabled')
+                        .attr('disabled', true);
+                }
+            }
+        });
     },
 
     'button.fa-plus click': function(el, ev) {

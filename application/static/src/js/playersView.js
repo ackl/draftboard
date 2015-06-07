@@ -11,13 +11,17 @@ module.exports = {
     initialise: function() {
         new Player.get().then(function(data) {
             can.each(data, function(item) {
-                //item._id = item._id || item.id;
-                //item._id = item._id.$oid;
-                var frag = can.view('playerTemplate', {'player': item}, {});
+                var frag = can.view('playerTemplate', {'player': item}, {
+                    getScore: function(match, player_id) {
+                        return match.player_scores[player_id].toString();
+                    }
+                });
+
                 $('.players.row').append(frag);
                 new playerControl($('.players.row').find('.player').last());
             });
         });
+
     }
 }
 

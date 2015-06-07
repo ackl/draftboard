@@ -41,8 +41,21 @@ var newMatchControl = can.Control.extend({
     },
 
     'input:checkbox change': function(el, ev) {
+        var players = this.element.find('input:checked').length,
+            newBestOf = [];
+
+        for (var i = 1; i < 4; i++) {
+            newBestOf.push((i*players) + 1);
+        }
+
+
+        this.$bestOf.filter(':gt(0)').each(function(i, el) {
+            el.innerText = newBestOf[i]
+        });
+
+
         var button = this.element.find('button')
-        if (this.element.find('input:checked').length > 1 && !this.valid) {
+        if (players > 1 && !this.valid) {
             button.removeClass('disabled').attr('disabled', false);
         } else {
             button.addClass('disabled').attr('disabled', true);

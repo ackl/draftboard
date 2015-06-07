@@ -99,13 +99,13 @@ class PlayerApiController(ApiController):
     def decreaseLife(data):
         player = Player.query({'_id': data['player_id']})
         player.update({'life': player.life - data['amount']})
-        emit('response', {'player_id': str(player._id), 'life': player.life}, broadcast=True)
+        #emit('response', {'player_id': str(player._id), 'life': player.life}, broadcast=True)
 
     @socketio.on('gain_life')
     def increaseLife(data):
         player = Player.query({'_id': data['player_id']})
         player.update({'life': player.life + data['amount']})
-        emit('response', {'player_id': str(player._id), 'life': player.life}, broadcast=True)
+        #emit('response', {'player_id': str(player._id), 'life': player.life}, broadcast=True)
 
 
 
