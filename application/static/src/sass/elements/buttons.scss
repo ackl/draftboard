@@ -1,0 +1,7 @@
+button.disabled, button[disabled], .button.disabled, .button[disabled] {
+    background: rgb(216, 202, 202);
+
+    &:hover {
+        background: rgb(216, 202, 202);
+    }
+}
